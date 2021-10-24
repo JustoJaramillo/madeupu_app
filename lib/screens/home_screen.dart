@@ -18,60 +18,35 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Projects'),
+        title: const Text('Projects'),
       ),
       body: _getBody(),
       drawer: widget.token.user.userType == 0
-          ? _getMechanicMenu()
+          ? _getAdminMenu()
           : _getCustomerMenu(),
     );
   }
 
   Widget _getBody() {
+    List<dynamic> list = [1, 2];
     return Container(
-      margin: EdgeInsets.all(30),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ClipRRect(
-            child: FadeInImage(
-              placeholder: AssetImage('assets/logo.png'),
-              image: NetworkImage(widget.token.user.imageFullPath),
-              imageErrorBuilder: (context, error, stackTrace) {
-                return Image.asset('assets/noimage.png', fit: BoxFit.cover);
-              },
-              height: 300,
-              fit: BoxFit.cover,
-            ),
-            borderRadius: BorderRadius.circular(150),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Center(
-            child: Text(
-              'Welcome ${widget.token.user.fullName}',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
+        //onRefresh: ,
+        child: Text('Project 1'));
   }
 
-  Widget _getMechanicMenu() {
+  Widget _getAdminMenu() {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
+          const DrawerHeader(
             child: Image(
-              image: AssetImage('assets/vehicles_logo.png'),
+              image: AssetImage('assets/logo.png'),
             ),
           ),
           ListTile(
-            leading: Icon(Icons.badge),
-            title: Text('Tipos de documento'),
+            leading: Icon(Icons.portrait_rounded),
+            title: Text('Document types'),
             onTap: () {
               Navigator.push(
                 context,
@@ -86,13 +61,13 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 2,
           ),
           ListTile(
-            leading: Icon(Icons.face),
-            title: Text('Editar perfil'),
+            leading: Icon(Icons.edit),
+            title: Text('Edit profile'),
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Cerrar sesión'),
+            leading: Icon(Icons.logout_rounded),
+            title: Text('Log out'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
@@ -112,12 +87,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           DrawerHeader(
             child: Image(
-              image: AssetImage('assets/vehicles_logo.png'),
+              image: AssetImage('assets/logo.png'),
             ),
           ),
           ListTile(
-            leading: Icon(Icons.two_wheeler),
-            title: Text('Mis vehículos'),
+            leading: Icon(Icons.business_center_rounded),
+            title: Text('My projects'),
             onTap: () {},
           ),
           Divider(
@@ -125,13 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 2,
           ),
           ListTile(
-            leading: Icon(Icons.face),
-            title: Text('Editar perfil'),
+            leading: Icon(Icons.edit),
+            title: Text('Edit profile'),
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Cerrar sesión'),
+            leading: Icon(Icons.logout_rounded),
+            title: Text('Log out'),
             onTap: () {
               Navigator.pushReplacement(
                 context,

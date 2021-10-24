@@ -1,3 +1,6 @@
+import 'package:madeupu_app/models/participation.dart';
+import 'package:madeupu_app/models/project.dart';
+
 import 'document_type.dart';
 
 class User {
@@ -10,8 +13,7 @@ class User {
   String imageFullPath = '';
   int userType = 1;
   String fullName = '';
-  //List<Projects> vehicles = [];
-  //int vehiclesCount = 0;
+  //List<Participations> participations = [];
   String id = '';
   String userName = '';
   String email = '';
@@ -27,7 +29,7 @@ class User {
     required this.imageFullPath,
     required this.userType,
     required this.fullName,
-    //required this.vehicles,
+    //required this.participations,
     //required this.vehiclesCount,
     required this.id,
     required this.userName,
@@ -45,13 +47,9 @@ class User {
     imageFullPath = json['imageFullPath'];
     userType = json['userType'];
     fullName = json['fullName'];
-    /*if (json['vehicles'] != null) {
-      vehicles = [];
-      json['vehicles'].forEach((v) {
-        vehicles.add(new Vehicle.fromJson(v));
-      });
-    }
-    vehiclesCount = json['vehiclesCount'];*/
+    /*json['participations'].forEach((v) {
+      participations.add(Participations.fromJson(v));
+    });*/
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
@@ -60,21 +58,20 @@ class User {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['documentType'] = this.documentType.toJson();
-    data['document'] = this.document;
-    data['address'] = this.address;
-    data['imageId'] = this.imageId;
-    data['imageFullPath'] = this.imageFullPath;
-    data['userType'] = this.userType;
-    data['fullName'] = this.fullName;
-    //data['vehicles'] = this.vehicles.map((v) => v.toJson()).toList();
-    //data['vehiclesCount'] = this.vehiclesCount;
-    data['id'] = this.id;
-    data['userName'] = this.userName;
-    data['email'] = this.email;
-    data['phoneNumber'] = this.phoneNumber;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['documentType'] = documentType.toJson();
+    data['document'] = document;
+    data['address'] = address;
+    data['imageId'] = imageId;
+    data['imageFullPath'] = imageFullPath;
+    data['userType'] = userType;
+    data['fullName'] = fullName;
+    //data['participations'] = participations.map((v) => v.toJson()).toList();
+    data['id'] = id;
+    data['userName'] = userName;
+    data['email'] = email;
+    data['phoneNumber'] = phoneNumber;
     return data;
   }
 }

@@ -37,7 +37,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.documentType.id == 0
-            ? 'Nuevo tipo de documento'
+            ? 'New type of document'
             : widget.documentType.description),
       ),
       body: Stack(
@@ -50,7 +50,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
           ),
           _showLoader
               ? LoaderComponent(
-                  text: 'Por favor espere...',
+                  text: 'Please wait...',
                 )
               : Container(),
         ],
@@ -65,8 +65,8 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
         autofocus: true,
         controller: _descriptionController,
         decoration: InputDecoration(
-          hintText: 'Ingresa una descripción...',
-          labelText: 'Descripción',
+          hintText: 'Enter a description...',
+          labelText: 'Description',
           errorText: _descriptionShowError ? _descriptionError : null,
           suffixIcon: Icon(Icons.description),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -86,7 +86,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
         children: <Widget>[
           Expanded(
             child: ElevatedButton(
-              child: Text('Guardar'),
+              child: Text('Save'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(
                     (Set<MaterialState> states) {
@@ -105,7 +105,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
               ? Container()
               : Expanded(
                   child: ElevatedButton(
-                    child: Text('Borrar'),
+                    child: Text('Delete'),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
@@ -134,7 +134,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     if (_description.isEmpty) {
       isValid = false;
       _descriptionShowError = true;
-      _descriptionError = 'Debes ingresar una descripción.';
+      _descriptionError = 'You must enter a description.';
     } else {
       _descriptionShowError = false;
     }
@@ -156,9 +156,9 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
       await showAlertDialog(
           context: context,
           title: 'Error',
-          message: 'Verifica que estes conectado a internet.',
+          message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -180,7 +180,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -201,9 +201,9 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
       await showAlertDialog(
           context: context,
           title: 'Error',
-          message: 'Verifica que estes conectado a internet.',
+          message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -226,7 +226,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -237,11 +237,11 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
   void _confirmDelete() async {
     var response = await showAlertDialog(
         context: context,
-        title: 'Confirmación',
-        message: '¿Estas seguro de querer borrar el registro?',
+        title: 'Confirmation',
+        message: 'Are you sure you want to delete the record?',
         actions: <AlertDialogAction>[
           AlertDialogAction(key: 'no', label: 'No'),
-          AlertDialogAction(key: 'yes', label: 'Sí'),
+          AlertDialogAction(key: 'yes', label: 'Yes'),
         ]);
 
     if (response == 'yes') {
@@ -262,9 +262,9 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
       await showAlertDialog(
           context: context,
           title: 'Error',
-          message: 'Verifica que estes conectado a internet.',
+          message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -282,7 +282,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }

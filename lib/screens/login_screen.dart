@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
-import 'package:madeupu_app/helpers/Colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
+import 'package:madeupu_app/helpers/app_colors.dart';
 import 'package:madeupu_app/helpers/constants.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/screens/home_screen.dart';
@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _email = 'luis@yopmail.com';
+  String _email = 'zulu@yopmail.com';
   String _emailError = '';
   bool _emailShowError = false;
 
@@ -245,8 +245,6 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       body: jsonEncode(request),
     );
-
-    print(response.body);
 
     setState(() {
       _showLoader = false;
