@@ -1,6 +1,3 @@
-import 'package:madeupu_app/models/participation.dart';
-import 'package:madeupu_app/models/project.dart';
-
 import 'document_type.dart';
 
 class User {
@@ -13,7 +10,6 @@ class User {
   String imageFullPath = '';
   int userType = 1;
   String fullName = '';
-  //List<Participations> participations = [];
   String id = '';
   String userName = '';
   String email = '';
@@ -29,8 +25,6 @@ class User {
     required this.imageFullPath,
     required this.userType,
     required this.fullName,
-    //required this.participations,
-    //required this.vehiclesCount,
     required this.id,
     required this.userName,
     required this.email,
@@ -47,9 +41,6 @@ class User {
     imageFullPath = json['imageFullPath'];
     userType = json['userType'];
     fullName = json['fullName'];
-    /*json['participations'].forEach((v) {
-      participations.add(Participations.fromJson(v));
-    });*/
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
@@ -57,7 +48,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['documentType'] = documentType.toJson();
@@ -67,7 +58,6 @@ class User {
     data['imageFullPath'] = imageFullPath;
     data['userType'] = userType;
     data['fullName'] = fullName;
-    //data['participations'] = participations.map((v) => v.toJson()).toList();
     data['id'] = id;
     data['userName'] = userName;
     data['email'] = email;
