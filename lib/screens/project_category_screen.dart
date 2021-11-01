@@ -3,21 +3,22 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
-import 'package:madeupu_app/models/document_type.dart';
+import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
 
-class DocumentTypeScreen extends StatefulWidget {
+class ProjectCategoryScreen extends StatefulWidget {
   final Token token;
-  final DocumentType documentType;
+  final ProjectCategory projectCategory;
 
-  DocumentTypeScreen({required this.token, required this.documentType});
+  const ProjectCategoryScreen(
+      {required this.token, required this.projectCategory});
 
   @override
-  _DocumentTypeScreenState createState() => _DocumentTypeScreenState();
+  _ProjectCategoryScreenState createState() => _ProjectCategoryScreenState();
 }
 
-class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
+class _ProjectCategoryScreenState extends State<ProjectCategoryScreen> {
   bool _showLoader = false;
   String _description = '';
   String _descriptionError = '';
@@ -27,7 +28,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
   @override
   void initState() {
     super.initState();
-    _description = widget.documentType.description;
+    _description = widget.projectCategory.description;
     _descriptionController.text = _description;
   }
 
@@ -35,9 +36,9 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.documentType.id == 0
-            ? 'New type of document'
-            : widget.documentType.description),
+        title: Text(widget.projectCategory.id == 0
+            ? 'New project category'
+            : widget.projectCategory.description),
       ),
       body: Stack(
         children: [
@@ -95,12 +96,12 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
               onPressed: () => _save(),
             ),
           ),
-          widget.documentType.id == 0
+          widget.projectCategory.id == 0
               ? Container()
               : const SizedBox(
                   width: 20,
                 ),
-          widget.documentType.id == 0
+          widget.projectCategory.id == 0
               ? Container()
               : Expanded(
                   child: ElevatedButton(
@@ -124,7 +125,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
       return;
     }
 
-    widget.documentType.id == 0 ? _addRecord() : _saveRecord();
+    widget.projectCategory.id == 0 ? _addRecord() : _saveRecord();
   }
 
   bool _validateFields() {
@@ -167,7 +168,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     };
 
     Response response = await ApiHelper.post(
-        '/api/DocumentTypes/', request, widget.token.token);
+        '/api/ParticipationTypes/', request, widget.token.token);
 
     setState(() {
       _showLoader = false;
@@ -208,12 +209,12 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     }
 
     Map<String, dynamic> request = {
-      'id': widget.documentType.id,
+      'id': widget.projectCategory.id,
       'description': _description,
     };
 
-    Response response = await ApiHelper.put('/api/DocumentTypes/',
-        widget.documentType.id.toString(), request, widget.token.token);
+    Response response = await ApiHelper.put('/api/ParticipationTypes/',
+        widget.projectCategory.id.toString(), request, widget.token.token);
 
     setState(() {
       _showLoader = false;
@@ -269,7 +270,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
     }
 
     Response response = await ApiHelper.delete('/api/DocumentTypes/',
-        widget.documentType.id.toString(), widget.token.token);
+        widget.projectCategory.id.toString(), widget.token.token);
 
     setState(() {
       _showLoader = false;

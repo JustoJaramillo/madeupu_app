@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:madeupu_app/models/document_type.dart';
 import 'package:madeupu_app/models/participation_type.dart';
+import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:http/http.dart' as http;
@@ -130,6 +131,40 @@ class ApiHelper {
     if (decodedJson != null) {
       for (var item in decodedJson) {
         list.add(ParticipationType.fromJson(item));
+      }
+    }
+
+    return Response(isSuccess: true, result: list);
+  }
+
+  static Future<Response> getProjectCategories(Token token) async {
+    if (!_validToken(token)) {
+      return Response(
+          isSuccess: false,
+          message:
+              'Your credentials have expired, please log out and log back into the system.');
+    }
+
+    var url = Uri.parse('${Constants.apiUrl}/api/ProjectCategories');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'authorization': 'bearer ${token.token}',
+      },
+    );
+
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+
+    List<ProjectCategory> list = [];
+    var decodedJson = jsonDecode(body);
+    if (decodedJson != null) {
+      for (var item in decodedJson) {
+        list.add(ProjectCategory.fromJson(item));
       }
     }
 

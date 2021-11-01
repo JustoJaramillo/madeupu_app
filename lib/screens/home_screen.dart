@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/screens/login_screen.dart';
 import 'package:madeupu_app/screens/participation_types_screen.dart';
+import 'package:madeupu_app/screens/project_categories_screen.dart';
 
 import 'document_types_screen.dart';
 
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     List<dynamic> list = [1, 2];
     return Container(
         //onRefresh: ,
-        child: Text('Project 1'));
+        child: const Text('Project 1'));
   }
 
   Widget _getAdminMenu() {
@@ -46,8 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.portrait_rounded),
-            title: Text('Document types'),
+            leading: const Icon(Icons.portrait_rounded),
+            title: const Text('Document types'),
             onTap: () {
               Navigator.push(
                 context,
@@ -58,8 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.device_hub_rounded),
-            title: Text('Participation types'),
+            leading: const Icon(Icons.device_hub_rounded),
+            title: const Text('Participation types'),
             onTap: () {
               Navigator.push(
                 context,
@@ -69,22 +70,34 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          Divider(
+          ListTile(
+            leading: const Icon(Icons.dashboard_rounded),
+            title: const Text('Project category'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ProjectCategoriesScreen(token: widget.token)),
+              );
+            },
+          ),
+          const Divider(
             color: Colors.black,
             height: 2,
           ),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Edit profile'),
+            leading: const Icon(Icons.edit),
+            title: const Text('Edit profile'),
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.logout_rounded),
-            title: Text('Log out'),
+            leading: const Icon(Icons.logout_rounded),
+            title: const Text('Log out'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
           ),
@@ -98,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
+          const DrawerHeader(
             child: Image(
               image: AssetImage('assets/logo.png'),
             ),
@@ -108,22 +121,22 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text('My projects'),
             onTap: () {},
           ),
-          Divider(
+          const Divider(
             color: Colors.black,
             height: 2,
           ),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Edit profile'),
+            leading: const Icon(Icons.edit),
+            title: const Text('Edit profile'),
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.logout_rounded),
-            title: Text('Log out'),
+            leading: const Icon(Icons.logout_rounded),
+            title: const Text('Log out'),
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => LoginScreen()),
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
             },
           ),

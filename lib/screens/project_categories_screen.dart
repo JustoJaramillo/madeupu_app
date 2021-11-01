@@ -3,22 +3,23 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
-import 'package:madeupu_app/models/participation_type.dart';
+import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
-import 'package:madeupu_app/screens/participation_type_screen.dart';
+import 'package:madeupu_app/screens/project_category_screen.dart';
 
-class ParticipationTypesScreen extends StatefulWidget {
+class ProjectCategoriesScreen extends StatefulWidget {
   final Token token;
-  const ParticipationTypesScreen({required this.token});
+
+  const ProjectCategoriesScreen({required this.token});
 
   @override
-  _ParticipationTypesScreenState createState() =>
-      _ParticipationTypesScreenState();
+  _ProjectCategoriesScreenState createState() =>
+      _ProjectCategoriesScreenState();
 }
 
-class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
-  List<ParticipationType> _participationType = [];
+class _ProjectCategoriesScreenState extends State<ProjectCategoriesScreen> {
+  List<ProjectCategory> _projectCategories = [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -26,14 +27,14 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
   @override
   void initState() {
     super.initState();
-    _getParticipationTypes();
+    _getProjectCategories();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Types of participation'),
+        title: const Text('Project categories'),
         actions: <Widget>[
           _isFiltered
               ? IconButton(
@@ -54,7 +55,7 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
     );
   }
 
-  Future<void> _getParticipationTypes() async {
+  Future<Null> _getProjectCategories() async {
     setState(() {
       _showLoader = true;
     });
@@ -74,7 +75,7 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getParticipationTypes(widget.token);
+    Response response = await ApiHelper.getProjectCategories(widget.token);
 
     setState(() {
       _showLoader = false;
@@ -92,22 +93,22 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
     }
 
     setState(() {
-      _participationType = response.result;
+      _projectCategories = response.result;
     });
   }
 
   Widget _getContent() {
-    return _participationType.isEmpty ? _noContent() : _getListView();
+    return _projectCategories.isEmpty ? _noContent() : _getListView();
   }
 
   Widget _noContent() {
     return Center(
       child: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Text(
           _isFiltered
-              ? 'No hay tipos de documento con ese criterio de búsqueda.'
-              : 'No hay tipos de documento registrados.',
+              ? 'There are no types of participation with this search criteria.'
+              : 'There are no types of participation registered.',
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
@@ -116,9 +117,9 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
 
   Widget _getListView() {
     return RefreshIndicator(
-      onRefresh: _getParticipationTypes,
+      onRefresh: _getProjectCategories,
       child: ListView(
-        children: _participationType.map((e) {
+        children: _projectCategories.map((e) {
           return Card(
             child: InkWell(
               onTap: () => _goEdit(e),
@@ -157,18 +158,18 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            title: const Text('Filter participation types'),
+            title: const Text('Filter Document Types'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const Text('Write the first letters of the document type '),
+                const Text('Write the first letters of the document type'),
                 const SizedBox(
                   height: 10,
                 ),
                 TextField(
                   autofocus: true,
                   decoration: const InputDecoration(
-                      hintText: 'Search criteria...',
+                      hintText: 'Search criteria ...',
                       labelText: 'Search',
                       suffixIcon: Icon(Icons.search)),
                   onChanged: (value) {
@@ -192,7 +193,7 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
     setState(() {
       _isFiltered = false;
     });
-    _getParticipationTypes();
+    _getProjectCategories();
   }
 
   void _filter() {
@@ -200,17 +201,17 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
       return;
     }
 
-    List<ParticipationType> filteredList = [];
-    for (var participationType in _participationType) {
-      if (participationType.description
+    List<ProjectCategory> filteredList = [];
+    for (var projectCategory in _projectCategories) {
+      if (projectCategory.description
           .toLowerCase()
           .contains(_search.toLowerCase())) {
-        filteredList.add(participationType);
+        filteredList.add(projectCategory);
       }
     }
 
     setState(() {
-      _participationType = filteredList;
+      _projectCategories = filteredList;
       _isFiltered = true;
     });
 
@@ -221,25 +222,25 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ParticipationTypeScreen(
+            builder: (context) => ProjectCategoryScreen(
                   token: widget.token,
-                  participationType: ParticipationType(description: '', id: 0),
+                  projectCategory: ProjectCategory(id: 0, description: ''),
                 )));
     if (result == 'yes') {
-      _getParticipationTypes();
+      _getProjectCategories();
     }
   }
 
-  void _goEdit(ParticipationType participationType) async {
+  void _goEdit(ProjectCategory projectCategory) async {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => ParticipationTypeScreen(
+            builder: (context) => ProjectCategoryScreen(
                   token: widget.token,
-                  participationType: participationType,
+                  projectCategory: projectCategory,
                 )));
     if (result == 'yes') {
-      _getParticipationTypes();
+      _getProjectCategories();
     }
   }
 }
