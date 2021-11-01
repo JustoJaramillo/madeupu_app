@@ -1,25 +1,24 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
-import 'package:madeupu_app/models/document_type.dart';
+import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/country_screen.dart';
 
-import 'document_type_screen.dart';
-
-class DocumentTypesScreen extends StatefulWidget {
+class CountriesScreen extends StatefulWidget {
   final Token token;
 
-  DocumentTypesScreen({required this.token});
+  const CountriesScreen({required this.token});
 
   @override
-  _DocumentTypesScreenState createState() => _DocumentTypesScreenState();
+  _CountriesScreenState createState() => _CountriesScreenState();
 }
 
-class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
-  List<DocumentType> _documentTypes = [];
+class _CountriesScreenState extends State<CountriesScreen> {
+  List<Country> _countries = [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -27,14 +26,14 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
   @override
   void initState() {
     super.initState();
-    _getDocumentTypes();
+    _getCountries();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Types of document'),
+        title: const Text('Contries'),
         actions: <Widget>[
           _isFiltered
               ? IconButton(
@@ -55,7 +54,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     );
   }
 
-  Future<Null> _getDocumentTypes() async {
+  Future<Null> _getCountries() async {
     setState(() {
       _showLoader = true;
     });
@@ -75,7 +74,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getDocumentTypes(widget.token);
+    Response response = await ApiHelper.getCountries(widget.token);
 
     setState(() {
       _showLoader = false;
@@ -93,12 +92,12 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     }
 
     setState(() {
-      _documentTypes = response.result;
+      _countries = response.result;
     });
   }
 
   Widget _getContent() {
-    return _documentTypes.isEmpty ? _noContent() : _getListView();
+    return _countries.isEmpty ? _noContent() : _getListView();
   }
 
   Widget _noContent() {
@@ -117,9 +116,9 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
 
   Widget _getListView() {
     return RefreshIndicator(
-      onRefresh: _getDocumentTypes,
+      onRefresh: _getCountries,
       child: ListView(
-        children: _documentTypes.map((e) {
+        children: _countries.map((e) {
           return Card(
             child: InkWell(
               onTap: () => _goEdit(e),
@@ -132,7 +131,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          e.description,
+                          e.name,
                           style: const TextStyle(
                             fontSize: 20,
                           ),
@@ -193,7 +192,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     setState(() {
       _isFiltered = false;
     });
-    _getDocumentTypes();
+    _getCountries();
   }
 
   void _filter() {
@@ -201,17 +200,15 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       return;
     }
 
-    List<DocumentType> filteredList = [];
-    for (var documentType in _documentTypes) {
-      if (documentType.description
-          .toLowerCase()
-          .contains(_search.toLowerCase())) {
-        filteredList.add(documentType);
+    List<Country> filteredList = [];
+    for (var country in _countries) {
+      if (country.name.toLowerCase().contains(_search.toLowerCase())) {
+        filteredList.add(country);
       }
     }
 
     setState(() {
-      _documentTypes = filteredList;
+      _countries = filteredList;
       _isFiltered = true;
     });
 
@@ -222,25 +219,25 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DocumentTypeScreen(
+            builder: (context) => CountryScreen(
                   token: widget.token,
-                  documentType: DocumentType(description: '', id: 0),
+                  country: Country(id: 0, name: ''),
                 )));
     if (result == 'yes') {
-      _getDocumentTypes();
+      _getCountries();
     }
   }
 
-  void _goEdit(DocumentType documentType) async {
+  void _goEdit(Country country) async {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DocumentTypeScreen(
+            builder: (context) => CountryScreen(
                   token: widget.token,
-                  documentType: documentType,
+                  country: country,
                 )));
     if (result == 'yes') {
-      _getDocumentTypes();
+      _getCountries();
     }
   }
 }

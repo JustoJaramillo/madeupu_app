@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/countries_screen.dart';
 import 'package:madeupu_app/screens/login_screen.dart';
 import 'package:madeupu_app/screens/participation_types_screen.dart';
 import 'package:madeupu_app/screens/project_categories_screen.dart';
+import 'package:madeupu_app/screens/users_screen.dart';
 
 import 'document_types_screen.dart';
 
@@ -79,6 +81,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(
                     builder: (context) =>
                         ProjectCategoriesScreen(token: widget.token)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.flag_rounded),
+            title: const Text('Countries'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CountriesScreen(token: widget.token)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.group_add_sharp),
+            title: const Text('Users'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UsersScreen(token: widget.token)),
               );
             },
           ),
