@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/screens/login_screen.dart';
+import 'package:madeupu_app/screens/participation_types_screen.dart';
 
 import 'document_types_screen.dart';
 
@@ -53,6 +54,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(
                     builder: (context) =>
                         DocumentTypesScreen(token: widget.token)),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.device_hub_rounded),
+            title: Text('Participation types'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ParticipationTypesScreen(token: widget.token)),
               );
             },
           ),

@@ -1,25 +1,24 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
-import 'package:madeupu_app/models/document_type.dart';
+import 'package:madeupu_app/models/participation_type.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/participation_type_screen.dart';
 
-import 'document_type_screen.dart';
-
-class DocumentTypesScreen extends StatefulWidget {
+class ParticipationTypesScreen extends StatefulWidget {
   final Token token;
-
-  DocumentTypesScreen({required this.token});
+  const ParticipationTypesScreen({required this.token});
 
   @override
-  _DocumentTypesScreenState createState() => _DocumentTypesScreenState();
+  _ParticipationTypesScreenState createState() =>
+      _ParticipationTypesScreenState();
 }
 
-class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
-  List<DocumentType> _documentTypes = [];
+class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
+  List<ParticipationType> _participationType = [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -27,19 +26,20 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
   @override
   void initState() {
     super.initState();
-    _getDocumentTypes();
+    _getParticipationTypes();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Types of document'),
+        title: const Text('Types of participation'),
         actions: <Widget>[
           _isFiltered
               ? IconButton(
                   onPressed: _removeFilter, icon: const Icon(Icons.filter_none))
-              : IconButton(onPressed: _showFilter, icon: Icon(Icons.filter_alt))
+              : IconButton(
+                  onPressed: _showFilter, icon: const Icon(Icons.filter_alt))
         ],
       ),
       body: Center(
@@ -54,7 +54,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     );
   }
 
-  Future<Null> _getDocumentTypes() async {
+  Future<void> _getParticipationTypes() async {
     setState(() {
       _showLoader = true;
     });
@@ -74,7 +74,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getDocumentTypes(widget.token);
+    Response response = await ApiHelper.getParticipationTypes(widget.token);
 
     setState(() {
       _showLoader = false;
@@ -92,12 +92,12 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     }
 
     setState(() {
-      _documentTypes = response.result;
+      _participationType = response.result;
     });
   }
 
   Widget _getContent() {
-    return _documentTypes.isEmpty ? _noContent() : _getListView();
+    return _participationType.isEmpty ? _noContent() : _getListView();
   }
 
   Widget _noContent() {
@@ -106,8 +106,8 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
         margin: EdgeInsets.all(20),
         child: Text(
           _isFiltered
-              ? 'There are no types of participation with this search criteria.'
-              : 'There are no types of participation registered.',
+              ? 'No hay tipos de documento con ese criterio de búsqueda.'
+              : 'No hay tipos de documento registrados.',
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
@@ -116,15 +116,15 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
 
   Widget _getListView() {
     return RefreshIndicator(
-      onRefresh: _getDocumentTypes,
+      onRefresh: _getParticipationTypes,
       child: ListView(
-        children: _documentTypes.map((e) {
+        children: _participationType.map((e) {
           return Card(
             child: InkWell(
               onTap: () => _goEdit(e),
               child: Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(5),
                 child: Column(
                   children: [
                     Row(
@@ -132,11 +132,11 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
                       children: [
                         Text(
                           e.description,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                           ),
                         ),
-                        Icon(Icons.edit_outlined),
+                        const Icon(Icons.edit_outlined),
                       ],
                     ),
                   ],
@@ -157,18 +157,18 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            title: Text('Filter Document Types'),
+            title: const Text('Filter participation types'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const Text('Write the first letters of the document type'),
+                const Text('Write the first letters of the document type '),
                 const SizedBox(
                   height: 10,
                 ),
                 TextField(
                   autofocus: true,
                   decoration: const InputDecoration(
-                      hintText: 'Search criteria ...',
+                      hintText: 'Search criteria...',
                       labelText: 'Search',
                       suffixIcon: Icon(Icons.search)),
                   onChanged: (value) {
@@ -192,7 +192,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     setState(() {
       _isFiltered = false;
     });
-    _getDocumentTypes();
+    _getParticipationTypes();
   }
 
   void _filter() {
@@ -200,8 +200,8 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       return;
     }
 
-    List<DocumentType> filteredList = [];
-    for (var documentType in _documentTypes) {
+    List<ParticipationType> filteredList = [];
+    for (var documentType in _participationType) {
       if (documentType.description
           .toLowerCase()
           .contains(_search.toLowerCase())) {
@@ -210,7 +210,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     }
 
     setState(() {
-      _documentTypes = filteredList;
+      _participationType = filteredList;
       _isFiltered = true;
     });
 
@@ -221,25 +221,25 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DocumentTypeScreen(
+            builder: (context) => ParticipationTypeScreen(
                   token: widget.token,
-                  documentType: DocumentType(description: '', id: 0),
+                  participationType: ParticipationType(description: '', id: 0),
                 )));
     if (result == 'yes') {
-      _getDocumentTypes();
+      _getParticipationTypes();
     }
   }
 
-  void _goEdit(DocumentType documentType) async {
+  void _goEdit(ParticipationType participationType) async {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DocumentTypeScreen(
+            builder: (context) => ParticipationTypeScreen(
                   token: widget.token,
-                  documentType: documentType,
+                  participationType: participationType,
                 )));
     if (result == 'yes') {
-      _getDocumentTypes();
+      _getParticipationTypes();
     }
   }
 }
