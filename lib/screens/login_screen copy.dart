@@ -9,8 +9,6 @@ import 'package:madeupu_app/helpers/app_colors.dart';
 import 'package:madeupu_app/helpers/constants.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/screens/home_screen.dart';
-import 'package:madeupu_app/screens/recover_password_screen.dart';
-import 'package:madeupu_app/screens/register_user_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -53,8 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 _showPassword(),
                 _showRememberme(),
                 _showButtons(),
-                _showForgotPassword(),
-                _showRegisterOption(),
+                _showRegisterOption()
               ],
             ),
           ),
@@ -62,24 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-  }
-
-  Widget _showForgotPassword() {
-    return InkWell(
-      onTap: () => _goForgotPassword(),
-      child: Container(
-        margin: EdgeInsets.only(top: 10, bottom: 20),
-        child: Text(
-          '¿Have you forgotten your password?',
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.blue),
-        ),
-      ),
-    );
-  }
-
-  void _goForgotPassword() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const RecoverPasswordScreen()));
   }
 
   Widget _showLogo() {
@@ -219,10 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'You do not have an account, register here.',
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.blue),
         ),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegisterUserScreen()));
-        },
+        onTap: () {},
       ),
     );
   }

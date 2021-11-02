@@ -2,27 +2,27 @@ import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/region.dart';
 
 class City {
-  int _id = 0;
-  String _name = '';
-  Region _region = Region(id: 0, name: '', country: Country(id: 0, name: ''));
+  int id = 0;
+  String name = '';
+  Region region = Region(id: 0, name: '', country: Country(id: 0, name: ''));
 
   City({required int id, required String name, required Region region}) {
-    _id = id;
-    _name = name;
-    _region = region;
+    id = id;
+    name = name;
+    region = region;
   }
 
   City.fromJson(Map<String, dynamic> json) {
-    _id = json['id'];
-    _name = json['name'];
-    _region = json['region'];
+    id = json['id'];
+    name = json['name'];
+    region = Region.fromJson(json['region']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = _id;
-    data['name'] = _name;
-    data['region'] = _region.toJson();
+    data['id'] = id;
+    data['name'] = name;
+    data['region'] = region.toJson();
 
     return data;
   }

@@ -1,25 +1,25 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:flutter/material.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
-import 'package:madeupu_app/models/document_type.dart';
+import 'package:madeupu_app/models/city.dart';
+import 'package:madeupu_app/models/country.dart';
+import 'package:madeupu_app/models/region.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/city_screen.dart';
 
-import 'document_type_screen.dart';
-
-class DocumentTypesScreen extends StatefulWidget {
+class CitiesScreen extends StatefulWidget {
   final Token token;
-
-  DocumentTypesScreen({required this.token});
+  const CitiesScreen({required this.token});
 
   @override
-  _DocumentTypesScreenState createState() => _DocumentTypesScreenState();
+  _CitiesScreenState createState() => _CitiesScreenState();
 }
 
-class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
-  List<DocumentType> _documentTypes = [];
+class _CitiesScreenState extends State<CitiesScreen> {
+  List<City> _cities = [];
   bool _showLoader = false;
   bool _isFiltered = false;
   String _search = '';
@@ -27,14 +27,14 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
   @override
   void initState() {
     super.initState();
-    _getDocumentTypes();
+    _getCities();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Types of document'),
+        title: const Text('Regions'),
         actions: <Widget>[
           _isFiltered
               ? IconButton(
@@ -55,7 +55,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     );
   }
 
-  Future<Null> _getDocumentTypes() async {
+  Future<Null> _getCities() async {
     setState(() {
       _showLoader = true;
     });
@@ -75,7 +75,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getDocumentTypes();
+    Response response = await ApiHelper.getCities(widget.token);
 
     setState(() {
       _showLoader = false;
@@ -93,12 +93,12 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     }
 
     setState(() {
-      _documentTypes = response.result;
+      _cities = response.result;
     });
   }
 
   Widget _getContent() {
-    return _documentTypes.isEmpty ? _noContent() : _getListView();
+    return _cities.isEmpty ? _noContent() : _getListView();
   }
 
   Widget _noContent() {
@@ -117,9 +117,9 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
 
   Widget _getListView() {
     return RefreshIndicator(
-      onRefresh: _getDocumentTypes,
+      onRefresh: _getCities,
       child: ListView(
-        children: _documentTypes.map((e) {
+        children: _cities.map((e) {
           return Card(
             child: InkWell(
               onTap: () => _goEdit(e),
@@ -132,7 +132,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          e.description,
+                          e.name,
                           style: const TextStyle(
                             fontSize: 20,
                           ),
@@ -193,7 +193,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     setState(() {
       _isFiltered = false;
     });
-    _getDocumentTypes();
+    _getCities();
   }
 
   void _filter() {
@@ -201,17 +201,15 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       return;
     }
 
-    List<DocumentType> filteredList = [];
-    for (var documentType in _documentTypes) {
-      if (documentType.description
-          .toLowerCase()
-          .contains(_search.toLowerCase())) {
-        filteredList.add(documentType);
+    List<City> filteredList = [];
+    for (var city in _cities) {
+      if (city.name.toLowerCase().contains(_search.toLowerCase())) {
+        filteredList.add(city);
       }
     }
 
     setState(() {
-      _documentTypes = filteredList;
+      _cities = filteredList;
       _isFiltered = true;
     });
 
@@ -222,25 +220,29 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DocumentTypeScreen(
+            builder: (context) => CityScreen(
                   token: widget.token,
-                  documentType: DocumentType(description: '', id: 0),
+                  city: City(
+                      id: 0,
+                      name: '',
+                      region: Region(
+                          id: 0, name: '', country: Country(id: 0, name: ''))),
                 )));
     if (result == 'yes') {
-      _getDocumentTypes();
+      _getCities();
     }
   }
 
-  void _goEdit(DocumentType documentType) async {
+  void _goEdit(City city) async {
     String? result = await Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DocumentTypeScreen(
+            builder: (context) => CityScreen(
                   token: widget.token,
-                  documentType: documentType,
+                  city: city,
                 )));
     if (result == 'yes') {
-      _getDocumentTypes();
+      _getCities();
     }
   }
 }

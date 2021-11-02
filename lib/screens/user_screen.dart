@@ -15,11 +15,14 @@ import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/models/user.dart';
 import 'package:madeupu_app/screens/take_picture_screen.dart';
 
+import 'change_password_screen.dart';
+
 class UserScreen extends StatefulWidget {
   final Token token;
   final User user;
+  final bool profile;
 
-  UserScreen({required this.token, required this.user});
+  UserScreen({required this.token, required this.user, required this.profile});
 
   @override
   _UserScreenState createState() => _UserScreenState();
@@ -169,18 +172,32 @@ class _UserScreenState extends State<UserScreen> {
                 ),
           widget.user.id.isEmpty
               ? Container()
-              : Expanded(
-                  child: ElevatedButton(
-                    child: Text('Delete'),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                        return Color(0xFFB4161B);
-                      }),
+              : widget.profile
+                  ? Expanded(
+                      child: ElevatedButton(
+                      child: Text('Change password'),
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                                (Set<MaterialState> states) {
+                          return Color(0xFFB4161B);
+                        }),
+                      ),
+                      onPressed: () => _changePassword(),
+                    ))
+                  : Expanded(
+                      child: ElevatedButton(
+                        child: Text('Delete'),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                            return Color(0xFFB4161B);
+                          }),
+                        ),
+                        onPressed: () => _confirmDelete(),
+                      ),
                     ),
-                    onPressed: () => _confirmDelete(),
-                  ),
-                ),
         ],
       ),
     );
@@ -648,7 +665,7 @@ class _UserScreenState extends State<UserScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getDocumentTypes(widget.token);
+    Response response = await ApiHelper.getDocumentTypes();
 
     setState(() {
       _showLoader = false;
@@ -715,5 +732,14 @@ class _UserScreenState extends State<UserScreen> {
         _image = image;
       });
     }
+  }
+
+  void _changePassword() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChangePasswordScreen(
+                  token: widget.token,
+                )));
   }
 }

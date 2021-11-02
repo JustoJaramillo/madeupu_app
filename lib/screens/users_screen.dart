@@ -35,27 +35,28 @@ class _UsersScreenState extends State<UsersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Usuarios'),
+        title: const Text('Users'),
         actions: <Widget>[
           _isFiltered
               ? IconButton(
-                  onPressed: _removeFilter, icon: Icon(Icons.filter_none))
-              : IconButton(onPressed: _showFilter, icon: Icon(Icons.filter_alt))
+                  onPressed: _removeFilter, icon: const Icon(Icons.filter_none))
+              : IconButton(
+                  onPressed: _showFilter, icon: const Icon(Icons.filter_alt))
         ],
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Por favor espere...')
+            ? LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () => _goAdd(),
       ),
     );
   }
 
-  Future<Null> _getUsers() async {
+  Future<void> _getUsers() async {
     setState(() {
       _showLoader = true;
     });
@@ -68,9 +69,9 @@ class _UsersScreenState extends State<UsersScreen> {
       await showAlertDialog(
           context: context,
           title: 'Error',
-          message: 'Verifica que estes conectado a internet.',
+          message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -87,7 +88,7 @@ class _UsersScreenState extends State<UsersScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -98,18 +99,18 @@ class _UsersScreenState extends State<UsersScreen> {
   }
 
   Widget _getContent() {
-    return _users.length == 0 ? _noContent() : _getListView();
+    return _users.isEmpty ? _noContent() : _getListView();
   }
 
   Widget _noContent() {
     return Center(
       child: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Text(
           _isFiltered
-              ? 'No hay usuarios con ese criterio de búsqueda.'
-              : 'No hay usuarios registradas.',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ? 'There are no users with this search criteria.'
+              : 'No registered users.',
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -124,14 +125,14 @@ class _UsersScreenState extends State<UsersScreen> {
             child: InkWell(
               onTap: () => _goInfoUser(e),
               child: Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(5),
                 child: Row(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(40),
                       child: FadeInImage(
-                          placeholder: AssetImage('assets/logo.png'),
+                          placeholder: const AssetImage('assets/logo.png'),
                           image: NetworkImage(e.imageFullPath),
                           width: 80,
                           height: 80,
@@ -139,7 +140,7 @@ class _UsersScreenState extends State<UsersScreen> {
                     ),
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -147,25 +148,25 @@ class _UsersScreenState extends State<UsersScreen> {
                               children: [
                                 Text(
                                   e.fullName,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   e.email,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 5,
                                 ),
                                 Text(
                                   e.phoneNumber,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14,
                                   ),
                                 ),
@@ -175,7 +176,7 @@ class _UsersScreenState extends State<UsersScreen> {
                         ),
                       ),
                     ),
-                    Icon(Icons.arrow_forward_ios),
+                    const Icon(Icons.arrow_forward_ios),
                   ],
                 ),
               ),
@@ -194,20 +195,20 @@ class _UsersScreenState extends State<UsersScreen> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            title: Text('Filtrar Usuarios'),
+            title: const Text('Filter Users'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text(
-                    'Escriba las primeras letras del nombre o apellidos del usuario'),
-                SizedBox(
+                const Text(
+                    'Write the first letters of the user\'s first or last name'),
+                const SizedBox(
                   height: 10,
                 ),
                 TextField(
                   autofocus: true,
-                  decoration: InputDecoration(
-                      hintText: 'Criterio de búsqueda...',
-                      labelText: 'Buscar',
+                  decoration: const InputDecoration(
+                      hintText: 'Search criteria...',
+                      labelText: 'Search',
                       suffixIcon: Icon(Icons.search)),
                   onChanged: (value) {
                     _search = value;
@@ -218,8 +219,9 @@ class _UsersScreenState extends State<UsersScreen> {
             actions: <Widget>[
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Cancelar')),
-              TextButton(onPressed: () => _filter(), child: Text('Filtrar')),
+                  child: const Text('Cancel')),
+              TextButton(
+                  onPressed: () => _filter(), child: const Text('Filter')),
             ],
           );
         });
@@ -258,6 +260,7 @@ class _UsersScreenState extends State<UsersScreen> {
         MaterialPageRoute(
             builder: (context) => UserScreen(
                   token: widget.token,
+                  profile: false,
                   user: User(
                       firstName: '',
                       lastName: '',

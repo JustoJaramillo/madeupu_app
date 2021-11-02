@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/cities_screen.dart';
 import 'package:madeupu_app/screens/countries_screen.dart';
 import 'package:madeupu_app/screens/login_screen.dart';
 import 'package:madeupu_app/screens/participation_types_screen.dart';
 import 'package:madeupu_app/screens/project_categories_screen.dart';
+import 'package:madeupu_app/screens/regions_screen.dart';
+import 'package:madeupu_app/screens/user_screen.dart';
 import 'package:madeupu_app/screens/users_screen.dart';
 
 import 'document_types_screen.dart';
@@ -96,6 +99,28 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.map_rounded),
+            title: const Text('Regions'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RegionsScreen(token: widget.token)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.landscape_rounded),
+            title: const Text('Cities'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CitiesScreen(token: widget.token)),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.group_add_sharp),
             title: const Text('Users'),
             onTap: () {
@@ -113,7 +138,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ListTile(
             leading: const Icon(Icons.edit),
             title: const Text('Edit profile'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserScreen(
+                          token: widget.token,
+                          user: widget.token.user,
+                          profile: true,
+                        )),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout_rounded),
@@ -152,7 +187,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ListTile(
             leading: const Icon(Icons.edit),
             title: const Text('Edit profile'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => UserScreen(
+                          token: widget.token,
+                          user: widget.token.user,
+                          profile: true,
+                        )),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout_rounded),
