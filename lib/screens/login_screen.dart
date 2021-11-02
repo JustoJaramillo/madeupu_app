@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -155,11 +158,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _showButtons() {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          _showLoginButton(),
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _showLoginButton(),
+            ],
+          ),
+          _showGoogleLoginButton(),
+          _showFacebookLoginButton(),
         ],
       ),
     );
@@ -216,12 +225,14 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: InkWell(
         child: Text(
-          'You do not have an account, register here.',
+          'You do not have an account, sign up.',
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.blue),
         ),
         onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RegisterUserScreen()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const RegisterUserScreen()));
         },
       ),
     );
@@ -302,5 +313,127 @@ class _LoginScreenState extends State<LoginScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isRemembered', true);
     await prefs.setString('userBody', body);
+  }
+
+  Widget _showGoogleLoginButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+            child: ElevatedButton.icon(
+                onPressed: () => _loginGoogle(),
+                icon: FaIcon(
+                  FontAwesomeIcons.google,
+                  color: Colors.red,
+                ),
+                label: Text('Iniciar sesión con Google'),
+                style: ElevatedButton.styleFrom(
+                    primary: Colors.white, onPrimary: Colors.black)))
+      ],
+    );
+  }
+
+  void _loginGoogle() async {
+    var googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
+    var user = await googleSignIn.signIn();
+
+    Map<String, dynamic> request = {
+      'email': user?.email,
+      'id': user?.id,
+      'loginType': 1,
+      'fullName': user?.displayName,
+      'photoURL': user?.photoUrl,
+      'photoURL': user?.displayName,
+    };
+
+    await _socialLogin(request);
+  }
+
+  Widget _showFacebookLoginButton() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+            child: ElevatedButton.icon(
+                onPressed: () => _loginFacebook(),
+                icon: FaIcon(
+                  FontAwesomeIcons.facebook,
+                  color: Colors.white,
+                ),
+                label: Text('Iniciar sesión con Facebook'),
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xFF3B5998), onPrimary: Colors.white)))
+      ],
+    );
+  }
+
+  void _loginFacebook() async {
+    await FacebookAuth.i.login();
+    var result = await FacebookAuth.i.login(
+      permissions: ["public_profile", "email"],
+    );
+    if (result.status == LoginStatus.success) {
+      final requestData = await FacebookAuth.i.getUserData(
+        fields:
+            "email, name, picture.width(800).heigth(800), first_name, last_name",
+      );
+
+      var picture = requestData['picture'];
+      var data = picture['data'];
+
+      Map<String, dynamic> request = {
+        'email': requestData['email'],
+        'id': requestData['id'],
+        'loginType': 2,
+        'fullName': requestData['name'],
+        'photoURL': data['url'],
+        'firtsName': requestData['first_name'],
+        'lastName': requestData['last_name'],
+      };
+
+      await _socialLogin(request);
+    }
+  }
+
+  Future _socialLogin(Map<String, dynamic> request) async {
+    var url = Uri.parse('${Constants.apiUrl}/api/Account/SocialLogin');
+    var response = await http.post(
+      url,
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+      },
+      body: jsonEncode(request),
+    );
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (response.statusCode >= 400) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message:
+              'El usuario ya inció sesión previamente por email o por otra red social.',
+          actions: <AlertDialogAction>[
+            AlertDialogAction(key: null, label: 'Aceptar'),
+          ]);
+      return;
+    }
+
+    var body = response.body;
+
+    if (_rememberme) {
+      _storeUser(body);
+    }
+
+    var decodedJson = jsonDecode(body);
+    var token = Token.fromJson(decodedJson);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomeScreen(
+                  token: token,
+                )));
   }
 }
