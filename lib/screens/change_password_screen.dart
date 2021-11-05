@@ -10,7 +10,8 @@ import 'package:madeupu_app/models/token.dart';
 class ChangePasswordScreen extends StatefulWidget {
   final Token token;
 
-  ChangePasswordScreen({required this.token});
+  // ignore: use_key_in_widget_constructors
+  const ChangePasswordScreen({required this.token});
 
   @override
   _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
@@ -76,7 +77,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   Widget _showCurrentPassword() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         obscureText: !_passwordShow,
         decoration: InputDecoration(
@@ -85,8 +86,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           errorText: _currentPasswordShowError ? _currentPasswordError : null,
           suffixIcon: IconButton(
             icon: _passwordShow
-                ? Icon(Icons.visibility)
-                : Icon(Icons.visibility_off),
+                ? const Icon(Icons.visibility)
+                : const Icon(Icons.visibility_off),
             onPressed: () {
               setState(() {
                 _passwordShow = !_passwordShow;
@@ -104,7 +105,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   Widget _showNewPassword() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         obscureText: !_passwordShow,
         decoration: InputDecoration(
@@ -113,8 +114,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           errorText: _newPasswordShowError ? _newPasswordError : null,
           suffixIcon: IconButton(
             icon: _passwordShow
-                ? Icon(Icons.visibility)
-                : Icon(Icons.visibility_off),
+                ? const Icon(Icons.visibility)
+                : const Icon(Icons.visibility_off),
             onPressed: () {
               setState(() {
                 _passwordShow = !_passwordShow;

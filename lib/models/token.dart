@@ -14,6 +14,7 @@ class Token {
       imageId: '',
       imageFullPath: '',
       userType: 0,
+      loginType: 0,
       fullName: '',
       id: '',
       userName: '',
@@ -29,10 +30,10 @@ class Token {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['token'] = this.token;
-    data['expiration'] = this.expiration;
-    data['user'] = this.user.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['token'] = token;
+    data['expiration'] = expiration;
+    data['user'] = user.toJson();
     return data;
   }
 }

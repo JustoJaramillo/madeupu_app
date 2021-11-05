@@ -12,7 +12,8 @@ class UserInfoScreen extends StatefulWidget {
   final Token token;
   final User user;
 
-  UserInfoScreen({required this.token, required this.user});
+  // ignore: use_key_in_widget_constructors
+  const UserInfoScreen({required this.token, required this.user});
 
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();
@@ -43,7 +44,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () => _goAdd(),
       ),
     );
@@ -51,8 +52,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   Widget _showUserInfo() {
     return Container(
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       child: Row(
         children: <Widget>[
           Stack(
@@ -60,7 +61,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
                 child: FadeInImage(
-                    placeholder: AssetImage('assets/logo.png'),
+                    placeholder: const AssetImage('assets/logo.png'),
                     image: NetworkImage(_user.imageFullPath),
                     width: 100,
                     height: 100,
@@ -77,7 +78,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         color: Colors.green[50],
                         height: 40,
                         width: 40,
-                        child: Icon(
+                        child: const Icon(
                           Icons.edit,
                           size: 30,
                           color: Colors.blue,
@@ -89,7 +90,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           ),
           Expanded(
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -99,77 +100,77 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            Text('Email: ',
+                            const Text('Email: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.email,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: <Widget>[
-                            Text('Tipo documento: ',
+                            const Text('Tipo documento: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.documentType.description,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: <Widget>[
-                            Text('Documento: ',
+                            const Text('Documento: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.document,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: <Widget>[
-                            Text('Dirección: ',
+                            const Text('Dirección: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.address,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: <Widget>[
-                            Text('Teléfono: ',
+                            const Text('Teléfono: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.phoneNumber,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                       ],
@@ -198,7 +199,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     }
   }
 
-  Future<Null> _getUser() async {
+  Future<void> _getUser() async {
     setState(() {
       _showLoader = true;
     });
@@ -213,7 +214,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           title: 'Error',
           message: 'Verifica que estes conectado a internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Aceptar'),
           ]);
       return;
     }
@@ -230,7 +231,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Aceptar'),
           ]);
       return;
     }
@@ -246,7 +247,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     return Column(
       children: <Widget>[
         _showUserInfo(),
-        Expanded(
+        const Expanded(
           //child: _user.vehicles.length == 0 ? _noContent() : _getListView(),
           child: Text('Prueba'),
         ),
@@ -347,8 +348,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   Widget _noContent() {
     return Center(
       child: Container(
-        margin: EdgeInsets.all(20),
-        child: Text(
+        margin: const EdgeInsets.all(20),
+        child: const Text(
           'El usuario no tiene vehículos registrados.',
           style: TextStyle(
             fontSize: 16,

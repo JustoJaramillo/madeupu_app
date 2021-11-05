@@ -13,7 +13,8 @@ import 'package:madeupu_app/screens/user_screen.dart';
 class UsersScreen extends StatefulWidget {
   final Token token;
 
-  UsersScreen({required this.token});
+  // ignore: use_key_in_widget_constructors
+  const UsersScreen({required this.token});
 
   @override
   _UsersScreenState createState() => _UsersScreenState();
@@ -270,6 +271,7 @@ class _UsersScreenState extends State<UsersScreen> {
                       imageId: '',
                       imageFullPath: '',
                       userType: 1,
+                      loginType: 0,
                       fullName: '',
                       id: '',
                       userName: '',

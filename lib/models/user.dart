@@ -9,6 +9,7 @@ class User {
   String imageId = '';
   String imageFullPath = '';
   int userType = 1;
+  int loginType = 0;
   String fullName = '';
   String id = '';
   String userName = '';
@@ -24,6 +25,7 @@ class User {
     required this.imageId,
     required this.imageFullPath,
     required this.userType,
+    required this.loginType,
     required this.fullName,
     required this.id,
     required this.userName,
@@ -40,6 +42,7 @@ class User {
     imageId = json['imageId'];
     imageFullPath = json['imageFullPath'];
     userType = json['userType'];
+    loginType = json['loginType'];
     fullName = json['fullName'];
     id = json['id'];
     userName = json['userName'];
@@ -48,7 +51,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['documentType'] = documentType.toJson();
@@ -57,6 +60,7 @@ class User {
     data['imageId'] = imageId;
     data['imageFullPath'] = imageFullPath;
     data['userType'] = userType;
+    data['loginType'] = loginType;
     data['fullName'] = fullName;
     data['id'] = id;
     data['userName'] = userName;

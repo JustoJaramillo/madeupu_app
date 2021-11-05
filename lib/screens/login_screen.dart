@@ -321,13 +321,13 @@ class _LoginScreenState extends State<LoginScreen> {
         Expanded(
             child: ElevatedButton.icon(
                 onPressed: () => _loginGoogle(),
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.google,
                   color: Colors.red,
                 ),
-                label: Text('Iniciar sesión con Google'),
+                label: const Text('Signing with google'),
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.white, onPrimary: Colors.black)))
+                    primary: AppColors.google, onPrimary: AppColors.red)))
       ],
     );
   }
@@ -342,8 +342,7 @@ class _LoginScreenState extends State<LoginScreen> {
       'id': user?.id,
       'loginType': 1,
       'fullName': user?.displayName,
-      'photoURL': user?.photoUrl,
-      'photoURL': user?.displayName,
+      'photoURL': user?.photoUrl
     };
 
     await _socialLogin(request);
@@ -355,13 +354,13 @@ class _LoginScreenState extends State<LoginScreen> {
         Expanded(
             child: ElevatedButton.icon(
                 onPressed: () => _loginFacebook(),
-                icon: FaIcon(
+                icon: const FaIcon(
                   FontAwesomeIcons.facebook,
                   color: Colors.white,
                 ),
-                label: Text('Iniciar sesión con Facebook'),
+                label: const Text('Signing with Facebook'),
                 style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF3B5998), onPrimary: Colors.white)))
+                    primary: const Color(0xFF3B5998), onPrimary: Colors.white)))
       ],
     );
   }
@@ -416,7 +415,7 @@ class _LoginScreenState extends State<LoginScreen> {
           message:
               'El usuario ya inció sesión previamente por email o por otra red social.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Aceptar'),
           ]);
       return;
     }

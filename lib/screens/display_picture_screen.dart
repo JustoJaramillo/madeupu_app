@@ -6,7 +6,8 @@ import 'package:madeupu_app/models/response.dart';
 class DisplayPictureScreen extends StatefulWidget {
   final XFile image;
 
-  DisplayPictureScreen({required this.image});
+  // ignore: use_key_in_widget_constructors
+  const DisplayPictureScreen({required this.image});
 
   @override
   _DisplayPictureScreenState createState() => _DisplayPictureScreenState();
@@ -17,7 +18,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vista previa de la foto'),
+        title: const Text('Vista previa de la foto'),
       ),
       body: Column(
         children: [
@@ -32,11 +33,11 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               children: <Widget>[
                 Expanded(
                   child: ElevatedButton(
-                    child: Text('Usar Foto'),
+                    child: const Text('Usar Foto'),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
-                        return Color(0xFF120E43);
+                        return const Color(0xFF120E43);
                       }),
                     ),
                     onPressed: () {
@@ -46,16 +47,16 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: ElevatedButton(
-                    child: Text('Volver a Tomar'),
+                    child: const Text('Volver a Tomar'),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
-                        return Color(0xFFE03B8B);
+                        return const Color(0xFFE03B8B);
                       }),
                     ),
                     onPressed: () {

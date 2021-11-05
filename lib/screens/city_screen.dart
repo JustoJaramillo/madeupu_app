@@ -11,6 +11,7 @@ import 'package:madeupu_app/models/token.dart';
 class CityScreen extends StatefulWidget {
   final Token token;
   final City city;
+  // ignore: use_key_in_widget_constructors
   const CityScreen({required this.token, required this.city});
 
   @override
@@ -83,7 +84,7 @@ class _CityScreenState extends State<CityScreen> {
     );
   }
 
-  Future<Null> _getCities() async {
+  Future<void> _getCities() async {
     setState(() {
       _showLoader = true;
     });
@@ -98,7 +99,7 @@ class _CityScreenState extends State<CityScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -115,7 +116,7 @@ class _CityScreenState extends State<CityScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -127,9 +128,9 @@ class _CityScreenState extends State<CityScreen> {
 
   Widget _showCities() {
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: _regions.isEmpty
-            ? Text('Loading regions...')
+            ? const Text('Loading regions...')
             : DropdownButtonFormField(
                 items: _getComboCountry(),
                 value: _regionId,
@@ -151,7 +152,7 @@ class _CityScreenState extends State<CityScreen> {
   List<DropdownMenuItem<int>> _getComboCountry() {
     List<DropdownMenuItem<int>> list = [];
 
-    list.add(DropdownMenuItem(
+    list.add(const DropdownMenuItem(
       child: Text('Select a region...'),
       value: 0,
     ));

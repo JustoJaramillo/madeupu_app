@@ -22,7 +22,9 @@ class UserScreen extends StatefulWidget {
   final User user;
   final bool profile;
 
-  UserScreen({required this.token, required this.user, required this.profile});
+  // ignore: use_key_in_widget_constructors
+  const UserScreen(
+      {required this.token, required this.user, required this.profile});
 
   @override
   _UserScreenState createState() => _UserScreenState();
@@ -36,12 +38,12 @@ class _UserScreenState extends State<UserScreen> {
   String _firstName = '';
   String _firstNameError = '';
   bool _firstNameShowError = false;
-  TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
 
   String _lastName = '';
   String _lastNameError = '';
   bool _lastNameShowError = false;
-  TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
 
   int _documentTypeId = 0;
   String _documentTypeIdError = '';
@@ -51,22 +53,22 @@ class _UserScreenState extends State<UserScreen> {
   String _document = '';
   String _documentError = '';
   bool _documentShowError = false;
-  TextEditingController _documentController = TextEditingController();
+  final TextEditingController _documentController = TextEditingController();
 
   String _address = '';
   String _addressError = '';
   bool _addressShowError = false;
-  TextEditingController _addressController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   String _email = '';
   String _emailError = '';
   bool _emailShowError = false;
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   String _phoneNumber = '';
   String _phoneNumberError = '';
   bool _phoneNumberShowError = false;
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
 
   @override
   void initState() {
@@ -129,7 +131,7 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showFirstName() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         autofocus: true,
         controller: _firstNameController,
@@ -137,7 +139,7 @@ class _UserScreenState extends State<UserScreen> {
           hintText: 'Enter names...',
           labelText: 'Names',
           errorText: _firstNameShowError ? _firstNameError : null,
-          suffixIcon: Icon(Icons.person),
+          suffixIcon: const Icon(Icons.person),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
@@ -149,17 +151,17 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showButtons() {
     return Container(
-      margin: EdgeInsets.only(left: 10, right: 10),
+      margin: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Expanded(
             child: ElevatedButton(
-              child: Text('Save'),
+              child: const Text('Save'),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.resolveWith<Color>(
                     (Set<MaterialState> states) {
-                  return Color(0xFF120E43);
+                  return const Color(0xFF120E43);
                 }),
               ),
               onPressed: () => _save(),
@@ -167,7 +169,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
           widget.user.id.isEmpty
               ? Container()
-              : SizedBox(
+              : const SizedBox(
                   width: 20,
                 ),
           widget.user.id.isEmpty
@@ -175,24 +177,24 @@ class _UserScreenState extends State<UserScreen> {
               : widget.profile
                   ? Expanded(
                       child: ElevatedButton(
-                      child: Text('Change password'),
+                      child: const Text('Change password'),
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.resolveWith<Color>(
                                 (Set<MaterialState> states) {
-                          return Color(0xFFB4161B);
+                          return const Color(0xFFB4161B);
                         }),
                       ),
                       onPressed: () => _changePassword(),
                     ))
                   : Expanded(
                       child: ElevatedButton(
-                        child: Text('Delete'),
+                        child: const Text('Delete'),
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.resolveWith<Color>(
                                   (Set<MaterialState> states) {
-                            return Color(0xFFB4161B);
+                            return const Color(0xFFB4161B);
                           }),
                         ),
                         onPressed: () => _confirmDelete(),
@@ -293,7 +295,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -329,7 +331,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -352,7 +354,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -389,7 +391,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -403,8 +405,8 @@ class _UserScreenState extends State<UserScreen> {
         title: 'Confirmation',
         message: '¿Are you sure you want to delete the record?',
         actions: <AlertDialogAction>[
-          AlertDialogAction(key: 'no', label: 'No'),
-          AlertDialogAction(key: 'yes', label: 'Yes'),
+          const AlertDialogAction(key: 'no', label: 'No'),
+          const AlertDialogAction(key: 'yes', label: 'Yes'),
         ]);
 
     if (response == 'yes') {
@@ -427,7 +429,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -445,7 +447,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -456,9 +458,9 @@ class _UserScreenState extends State<UserScreen> {
   Widget _showPhoto() {
     return Stack(children: <Widget>[
       Container(
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         child: widget.user.id.isEmpty && !_photoChanged
-            ? Image(
+            ? const Image(
                 image: AssetImage('assets/noimage.png'),
                 height: 160,
                 width: 160,
@@ -474,7 +476,7 @@ class _UserScreenState extends State<UserScreen> {
                         fit: BoxFit.cover,
                       )
                     : FadeInImage(
-                        placeholder: AssetImage('assets/logo.png'),
+                        placeholder: const AssetImage('assets/logo.png'),
                         image: NetworkImage(widget.user.imageFullPath),
                         width: 160,
                         height: 160,
@@ -492,7 +494,7 @@ class _UserScreenState extends State<UserScreen> {
                 color: Colors.green[50],
                 height: 60,
                 width: 60,
-                child: Icon(
+                child: const Icon(
                   Icons.photo_camera,
                   size: 40,
                   color: Colors.blue,
@@ -511,7 +513,7 @@ class _UserScreenState extends State<UserScreen> {
                 color: Colors.green[50],
                 height: 60,
                 width: 60,
-                child: Icon(
+                child: const Icon(
                   Icons.image,
                   size: 40,
                   color: Colors.blue,
@@ -524,14 +526,14 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showLastName() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         controller: _lastNameController,
         decoration: InputDecoration(
           hintText: 'Enter surname ...',
           labelText: 'Surname',
           errorText: _lastNameShowError ? _lastNameError : null,
-          suffixIcon: Icon(Icons.person),
+          suffixIcon: const Icon(Icons.person),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
@@ -543,9 +545,9 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showDocumentType() {
     return Container(
-        padding: EdgeInsets.all(10),
-        child: _documentTypes.length == 0
-            ? Text('Loading document types...')
+        padding: const EdgeInsets.all(10),
+        child: _documentTypes.isEmpty
+            ? const Text('Loading document types...')
             : DropdownButtonFormField(
                 items: _getComboDocumentTypes(),
                 value: _documentTypeId,
@@ -567,14 +569,14 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showDocument() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         controller: _documentController,
         decoration: InputDecoration(
           hintText: 'Enter document...',
           labelText: 'Document',
           errorText: _documentShowError ? _documentError : null,
-          suffixIcon: Icon(Icons.assignment_ind),
+          suffixIcon: const Icon(Icons.assignment_ind),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
@@ -586,7 +588,7 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showEmail() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         enabled: widget.user.id.isEmpty,
         controller: _emailController,
@@ -595,7 +597,7 @@ class _UserScreenState extends State<UserScreen> {
           hintText: 'Enter email...',
           labelText: 'Email',
           errorText: _emailShowError ? _emailError : null,
-          suffixIcon: Icon(Icons.email),
+          suffixIcon: const Icon(Icons.email),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
@@ -607,7 +609,7 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showAddress() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         controller: _addressController,
         keyboardType: TextInputType.streetAddress,
@@ -615,7 +617,7 @@ class _UserScreenState extends State<UserScreen> {
           hintText: 'Enter address ...',
           labelText: 'Address',
           errorText: _addressShowError ? _addressError : null,
-          suffixIcon: Icon(Icons.home),
+          suffixIcon: const Icon(Icons.home),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
@@ -627,7 +629,7 @@ class _UserScreenState extends State<UserScreen> {
 
   Widget _showPhoneNumber() {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: TextField(
         controller: _phoneNumberController,
         keyboardType: TextInputType.phone,
@@ -635,7 +637,7 @@ class _UserScreenState extends State<UserScreen> {
           hintText: 'Enter phone ...',
           labelText: 'Phone',
           errorText: _phoneNumberShowError ? _phoneNumberError : null,
-          suffixIcon: Icon(Icons.phone),
+          suffixIcon: const Icon(Icons.phone),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
@@ -645,7 +647,7 @@ class _UserScreenState extends State<UserScreen> {
     );
   }
 
-  Future<Null> _getDocumentTypes() async {
+  Future<void> _getDocumentTypes() async {
     setState(() {
       _showLoader = true;
     });
@@ -660,7 +662,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -677,7 +679,7 @@ class _UserScreenState extends State<UserScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -690,7 +692,7 @@ class _UserScreenState extends State<UserScreen> {
   List<DropdownMenuItem<int>> _getComboDocumentTypes() {
     List<DropdownMenuItem<int>> list = [];
 
-    list.add(DropdownMenuItem(
+    list.add(const DropdownMenuItem(
       child: Text('Select a document type...'),
       value: 0,
     ));

@@ -12,7 +12,8 @@ class RegionScreen extends StatefulWidget {
   final Token token;
   final Region region;
 
-  RegionScreen({required this.token, required this.region});
+  // ignore: use_key_in_widget_constructors
+  const RegionScreen({required this.token, required this.region});
 
   @override
   _RegionScreenState createState() => _RegionScreenState();
@@ -84,7 +85,7 @@ class _RegionScreenState extends State<RegionScreen> {
     );
   }
 
-  Future<Null> _getCountries() async {
+  Future<void> _getCountries() async {
     setState(() {
       _showLoader = true;
     });
@@ -99,7 +100,7 @@ class _RegionScreenState extends State<RegionScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -116,7 +117,7 @@ class _RegionScreenState extends State<RegionScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -128,9 +129,9 @@ class _RegionScreenState extends State<RegionScreen> {
 
   Widget _showCountries() {
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: _countries.isEmpty
-            ? Text('Loading countries...')
+            ? const Text('Loading countries...')
             : DropdownButtonFormField(
                 items: _getComboCountry(),
                 value: _countryId,
@@ -152,7 +153,7 @@ class _RegionScreenState extends State<RegionScreen> {
   List<DropdownMenuItem<int>> _getComboCountry() {
     List<DropdownMenuItem<int>> list = [];
 
-    list.add(DropdownMenuItem(
+    list.add(const DropdownMenuItem(
       child: Text('Select a country...'),
       value: 0,
     ));

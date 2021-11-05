@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MadeUpU</string>
+    <string name="facebook_app_id">1889418421253398</string>
+    <string name="fb_login_protocol_scheme">fb1889418421253398</string>
+</resources>

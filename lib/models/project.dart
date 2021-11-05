@@ -1,6 +1,5 @@
 import 'package:madeupu_app/models/city.dart';
 import 'package:madeupu_app/models/country.dart';
-import 'package:madeupu_app/models/document_type.dart';
 import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
 
@@ -64,7 +63,7 @@ class Project {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['city'] = _city.toJson();
     data['name'] = _name;

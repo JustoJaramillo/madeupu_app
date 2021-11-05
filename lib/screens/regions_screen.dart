@@ -11,6 +11,7 @@ import 'package:madeupu_app/screens/region_screen.dart';
 
 class RegionsScreen extends StatefulWidget {
   final Token token;
+  // ignore: use_key_in_widget_constructors
   const RegionsScreen({required this.token});
 
   @override
@@ -54,7 +55,7 @@ class _RegionsScreenState extends State<RegionsScreen> {
     );
   }
 
-  Future<Null> _getRegions() async {
+  Future<void> _getRegions() async {
     setState(() {
       _showLoader = true;
     });

@@ -7,7 +7,8 @@ import 'display_picture_screen.dart';
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
 
-  TakePictureScreen({required this.camera});
+  // ignore: use_key_in_widget_constructors
+  const TakePictureScreen({required this.camera});
 
   @override
   _TakePictureScreenState createState() => _TakePictureScreenState();
@@ -37,7 +38,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tomar Foto'),
+        title: const Text('Tomar Foto'),
       ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
@@ -45,14 +46,14 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
           if (snapshot.connectionState == ConnectionState.done) {
             return CameraPreview(_controller);
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
+        child: const Icon(Icons.camera_alt),
         onPressed: () async {
           try {
             await _initializeControllerFuture;

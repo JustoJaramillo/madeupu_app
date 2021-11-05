@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "891220462832",
+    "project_id": "madeupu",
+    "storage_bucket": "madeupu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891220462832:android:c0a699f7d5089476904635",
+        "android_client_info": {
+          "package_name": "com.example.madeupu_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891220462832-f7ai7adj2v2s11c8mdojacd99f1j77kv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.madeupu_app",
+            "certificate_hash": "1bc5ba5c7321addf2a9efd153cc3baedf9434778"
+          }
+        },
+        {
+          "client_id": "891220462832-lvko3ioj8fmbcj45qr87divo2s44e7ec.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFeZs7NaLrb4xuKq4GYDBM-LR_xaHC_5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891220462832-lvko3ioj8fmbcj45qr87divo2s44e7ec.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
