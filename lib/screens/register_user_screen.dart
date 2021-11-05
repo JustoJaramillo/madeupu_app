@@ -103,7 +103,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
             ),
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),

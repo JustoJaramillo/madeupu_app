@@ -11,6 +11,7 @@ import 'package:madeupu_app/screens/country_screen.dart';
 class CountriesScreen extends StatefulWidget {
   final Token token;
 
+  // ignore: use_key_in_widget_constructors
   const CountriesScreen({required this.token});
 
   @override
@@ -44,7 +45,7 @@ class _CountriesScreenState extends State<CountriesScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -54,7 +55,7 @@ class _CountriesScreenState extends State<CountriesScreen> {
     );
   }
 
-  Future<Null> _getCountries() async {
+  Future<void> _getCountries() async {
     setState(() {
       _showLoader = true;
     });

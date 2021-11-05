@@ -46,7 +46,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(

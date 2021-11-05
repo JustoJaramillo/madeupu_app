@@ -120,7 +120,7 @@ class _UserScreenState extends State<UserScreen> {
             ),
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),
@@ -697,12 +697,12 @@ class _UserScreenState extends State<UserScreen> {
       value: 0,
     ));
 
-    _documentTypes.forEach((documnentType) {
+    for (var documnentType in _documentTypes) {
       list.add(DropdownMenuItem(
         child: Text(documnentType.description),
         value: documnentType.id,
       ));
-    });
+    }
 
     return list;
   }

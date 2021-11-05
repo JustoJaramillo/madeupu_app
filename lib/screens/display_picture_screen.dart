@@ -28,7 +28,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
             fit: BoxFit.cover,
           ),
           Container(
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: Row(
               children: <Widget>[
                 Expanded(

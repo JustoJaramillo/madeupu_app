@@ -11,7 +11,8 @@ class ParticipationTypeScreen extends StatefulWidget {
   final Token token;
   final ParticipationType participationType;
 
-  ParticipationTypeScreen(
+  // ignore: use_key_in_widget_constructors
+  const ParticipationTypeScreen(
       {required this.token, required this.participationType});
 
   @override
@@ -50,7 +51,7 @@ class _ParticipationTypeScreenState extends State<ParticipationTypeScreen> {
             ],
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),

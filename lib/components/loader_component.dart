@@ -4,7 +4,8 @@ import 'package:madeupu_app/helpers/app_colors.dart';
 class LoaderComponent extends StatelessWidget {
   final String text;
 
-  LoaderComponent({this.text = ''});
+  // ignore: use_key_in_widget_constructors
+  const LoaderComponent({this.text = ''});
 
   @override
   Widget build(BuildContext context) {

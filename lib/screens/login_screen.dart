@@ -25,7 +25,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String _email = 'luis@yopmail.com';
+  // ignore: unused_field
   String _emailError = '';
+  // ignore: unused_field
   bool _emailShowError = false;
 
   String _password = '123456';
@@ -45,11 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 _showLogo(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _showEmail(),
@@ -61,7 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          _showLoader ? LoaderComponent(text: 'Please wait...') : Container(),
+          _showLoader
+              ? const LoaderComponent(text: 'Please wait...')
+              : Container(),
         ],
       ),
     );
@@ -71,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return InkWell(
       onTap: () => _goForgotPassword(),
       child: Container(
-        margin: EdgeInsets.only(top: 10, bottom: 20),
+        margin: const EdgeInsets.only(top: 10, bottom: 20),
         child: Text(
           '¿Have you forgotten your password?',
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.blue),
@@ -124,8 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
           errorText: _passwordShowError ? _passwordError : null,
           suffixIcon: IconButton(
             icon: _passwordShow
-                ? Icon(Icons.visibility)
-                : Icon(Icons.visibility_off),
+                ? const Icon(Icons.visibility)
+                : const Icon(Icons.visibility_off),
             onPressed: () {
               setState(() {
                 _passwordShow = !_passwordShow;
@@ -145,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 2, top: 10),
       child: CheckboxListTile(
-        title: Text('Remember me'),
+        title: const Text('Remember me'),
         value: _rememberme,
         onChanged: (value) {
           setState(() {
@@ -208,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _showLoginButton() {
     return Expanded(
       child: ElevatedButton(
-        child: Text('Log in'),
+        child: const Text('Log in'),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
@@ -261,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: 'Error',
           message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            AlertDialogAction(key: null, label: 'Accept'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -366,10 +370,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginFacebook() async {
-    await FacebookAuth.i.login();
-    var result = await FacebookAuth.i.login(
+    await FacebookAuth.instance.login();
+    var result = await FacebookAuth.instance.login(
       permissions: ["public_profile", "email"],
     );
+    print('Marica: ${result.status}');
     if (result.status == LoginStatus.success) {
       final requestData = await FacebookAuth.i.getUserData(
         fields:
@@ -384,9 +389,7 @@ class _LoginScreenState extends State<LoginScreen> {
         'id': requestData['id'],
         'loginType': 2,
         'fullName': requestData['name'],
-        'photoURL': data['url'],
-        'firtsName': requestData['first_name'],
-        'lastName': requestData['last_name'],
+        'photoURL': data['url']
       };
 
       await _socialLogin(request);

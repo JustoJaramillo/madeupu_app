@@ -12,7 +12,8 @@ import 'document_type_screen.dart';
 class DocumentTypesScreen extends StatefulWidget {
   final Token token;
 
-  DocumentTypesScreen({required this.token});
+  // ignore: use_key_in_widget_constructors
+  const DocumentTypesScreen({required this.token});
 
   @override
   _DocumentTypesScreenState createState() => _DocumentTypesScreenState();
@@ -45,7 +46,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -55,7 +56,7 @@ class _DocumentTypesScreenState extends State<DocumentTypesScreen> {
     );
   }
 
-  Future<Null> _getDocumentTypes() async {
+  Future<void> _getDocumentTypes() async {
     setState(() {
       _showLoader = true;
     });

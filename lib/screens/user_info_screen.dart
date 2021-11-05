@@ -38,7 +38,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(
+            ? const LoaderComponent(
                 text: 'Por favor espere...',
               )
             : _getContent(),
@@ -343,7 +343,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         }).toList(),
       ),
     );
-  }*/
+  }
 
   Widget _noContent() {
     return Center(
@@ -358,7 +358,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         ),
       ),
     );
-  }
+  }*/
 
-  void _goVehicle() {}
+  //void _goVehicle() {}
 }

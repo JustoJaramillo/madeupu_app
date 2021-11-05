@@ -56,7 +56,7 @@ class _RegionScreenState extends State<RegionScreen> {
             ],
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),
@@ -158,12 +158,12 @@ class _RegionScreenState extends State<RegionScreen> {
       value: 0,
     ));
 
-    _countries.forEach((country) {
+    for (var country in _countries) {
       list.add(DropdownMenuItem(
         child: Text(country.name),
         value: country.id,
       ));
-    });
+    }
 
     return list;
   }

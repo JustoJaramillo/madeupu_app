@@ -45,7 +45,7 @@ class Participations {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = _id;
     data['participationType'] = _participationType;
     data['message'] = _message;

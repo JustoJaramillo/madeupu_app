@@ -14,7 +14,8 @@ import 'document_types_screen.dart';
 class HomeScreen extends StatefulWidget {
   final Token token;
 
-  HomeScreen({required this.token});
+  // ignore: use_key_in_widget_constructors
+  const HomeScreen({required this.token});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -35,7 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _getBody() {
+    // ignore: unused_local_variable
     List<dynamic> list = [1, 2];
+    // ignore: avoid_unnecessary_containers
     return Container(
         //onRefresh: ,
         child: const Text('Project 1'));
@@ -176,8 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.business_center_rounded),
-            title: Text('My projects'),
+            leading: const Icon(Icons.business_center_rounded),
+            title: const Text('My projects'),
             onTap: () {},
           ),
           const Divider(

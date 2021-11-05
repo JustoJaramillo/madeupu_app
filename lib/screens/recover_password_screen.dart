@@ -20,7 +20,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
   String _email = '';
   String _emailError = '';
   bool _emailShowError = false;
-  TextEditingController _emailController = TextEditingController();
+  //final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
             ],
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),

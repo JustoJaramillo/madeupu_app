@@ -45,7 +45,7 @@ class _RegionsScreenState extends State<RegionsScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(

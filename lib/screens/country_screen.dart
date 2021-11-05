@@ -11,6 +11,7 @@ class CountryScreen extends StatefulWidget {
   final Token token;
   final Country country;
 
+  // ignore: use_key_in_widget_constructors
   const CountryScreen({required this.token, required this.country});
 
   @override
@@ -47,7 +48,7 @@ class _CountryScreenState extends State<CountryScreen> {
             ],
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),

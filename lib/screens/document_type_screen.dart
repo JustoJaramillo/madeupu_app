@@ -11,7 +11,8 @@ class DocumentTypeScreen extends StatefulWidget {
   final Token token;
   final DocumentType documentType;
 
-  DocumentTypeScreen({required this.token, required this.documentType});
+  // ignore: use_key_in_widget_constructors
+  const DocumentTypeScreen({required this.token, required this.documentType});
 
   @override
   _DocumentTypeScreenState createState() => _DocumentTypeScreenState();
@@ -48,7 +49,7 @@ class _DocumentTypeScreenState extends State<DocumentTypeScreen> {
             ],
           ),
           _showLoader
-              ? LoaderComponent(
+              ? const LoaderComponent(
                   text: 'Please wait...',
                 )
               : Container(),

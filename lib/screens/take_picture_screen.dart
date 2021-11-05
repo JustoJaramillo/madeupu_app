@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/models/response.dart';
@@ -67,7 +68,13 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
               Navigator.pop(context, response);
             }
           } catch (e) {
-            print(e);
+            await showAlertDialog(
+                context: context,
+                title: 'Error',
+                message: 'An error has occurred, please try again.',
+                actions: <AlertDialogAction>[
+                  const AlertDialogAction(key: null, label: 'Accept'),
+                ]);
           }
         },
       ),

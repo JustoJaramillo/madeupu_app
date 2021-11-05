@@ -47,7 +47,7 @@ class _UsersScreenState extends State<UsersScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(

@@ -11,6 +11,7 @@ import 'package:madeupu_app/screens/project_category_screen.dart';
 class ProjectCategoriesScreen extends StatefulWidget {
   final Token token;
 
+  // ignore: use_key_in_widget_constructors
   const ProjectCategoriesScreen({required this.token});
 
   @override
@@ -45,7 +46,7 @@ class _ProjectCategoriesScreenState extends State<ProjectCategoriesScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -55,7 +56,7 @@ class _ProjectCategoriesScreenState extends State<ProjectCategoriesScreen> {
     );
   }
 
-  Future<Null> _getProjectCategories() async {
+  Future<void> _getProjectCategories() async {
     setState(() {
       _showLoader = true;
     });

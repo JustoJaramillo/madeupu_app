@@ -10,6 +10,7 @@ import 'package:madeupu_app/screens/participation_type_screen.dart';
 
 class ParticipationTypesScreen extends StatefulWidget {
   final Token token;
+  // ignore: use_key_in_widget_constructors
   const ParticipationTypesScreen({required this.token});
 
   @override
@@ -44,7 +45,7 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
       ),
       body: Center(
         child: _showLoader
-            ? LoaderComponent(text: 'Please wait...')
+            ? const LoaderComponent(text: 'Please wait...')
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -103,7 +104,7 @@ class _ParticipationTypesScreenState extends State<ParticipationTypesScreen> {
   Widget _noContent() {
     return Center(
       child: Container(
-        margin: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
         child: Text(
           _isFiltered
               ? 'No hay tipos de documento con ese criterio de búsqueda.'
