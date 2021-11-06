@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MadeUpU</string>
+    <string name="app_name">Made Up U</string>
     <string name="facebook_app_id">135855198755384</string>
     <string name="fb_login_protocol_scheme">fb135855198755384</string>
 </resources>

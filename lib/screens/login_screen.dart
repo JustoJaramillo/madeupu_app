@@ -370,11 +370,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginFacebook() async {
-    await FacebookAuth.instance.login();
-    var result = await FacebookAuth.instance.login(
+    //await FacebookAuth.i.login();
+    final LoginResult result = await FacebookAuth.i.login(
       permissions: ["public_profile", "email"],
     );
-    print('Marica: ${result.status}');
     if (result.status == LoginStatus.success) {
       final requestData = await FacebookAuth.i.getUserData(
         fields:
