@@ -1,33 +1,50 @@
-class Rating {
-  int _id = 0;
-  int _rate = 0;
-  String _userName = '';
-  String _projectId = '';
+import 'package:madeupu_app/models/document_type.dart';
+import 'package:madeupu_app/models/user.dart';
 
-  Rating(
-      {required int id,
-      required int rate,
-      required String userName,
-      required String projectId}) {
-    _id = id;
-    _rate = rate;
-    _userName = userName;
-    _projectId = projectId;
-  }
+class Ratings {
+  int id = 0;
+  int rate = 0;
+  String date = '';
+  String dateLocal = '';
+  User user = User(
+      firstName: '',
+      lastName: '',
+      documentType: DocumentType(id: 0, description: ''),
+      document: '',
+      address: '',
+      imageId: '',
+      imageFullPath: '',
+      userType: 0,
+      loginType: 0,
+      socialImageUrl: '',
+      fullName: '',
+      id: '',
+      userName: '',
+      email: '',
+      phoneNumber: '');
 
-  Rating.fromJson(Map<String, dynamic> json) {
-    _id = json['id'];
-    _rate = json['rate'];
-    _userName = json['UserName'];
-    _projectId = json['ProjectId'];
+  Ratings(
+      {required this.id,
+      required this.rate,
+      required this.date,
+      required this.dateLocal,
+      required this.user});
+
+  Ratings.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    rate = json['rate'];
+    date = json['date'];
+    dateLocal = json['dateLocal'];
+    user = User.fromJson(json['user']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = _id;
-    data['rate'] = _rate;
-    data['UserName'] = _userName;
-    data['ProjectId'] = _projectId;
+    data['id'] = id;
+    data['rate'] = rate;
+    data['date'] = date;
+    data['dateLocal'] = dateLocal;
+    data['user'] = user.toJson();
     return data;
   }
 }

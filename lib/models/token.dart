@@ -15,6 +15,7 @@ class Token {
       imageFullPath: '',
       userType: 0,
       loginType: 0,
+      socialImageUrl: '',
       fullName: '',
       id: '',
       userName: '',

@@ -4,6 +4,7 @@ import 'package:madeupu_app/models/city.dart';
 import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/document_type.dart';
 import 'package:madeupu_app/models/participation_type.dart';
+import 'package:madeupu_app/models/project.dart';
 import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
 import 'package:madeupu_app/models/response.dart';
@@ -345,5 +346,65 @@ class ApiHelper {
     }
 
     return Response(isSuccess: true);
+  }
+
+  static Future<Response> getProjects() async {
+    var url = Uri.parse('${Constants.apiUrl}/api/Projects');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json'
+      },
+    );
+
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+
+    List<Project> list = [];
+    var decodedJson = jsonDecode(body);
+    if (decodedJson != null) {
+      for (var item in decodedJson) {
+        list.add(Project.fromJson(item));
+      }
+    }
+    return Response(isSuccess: true, result: list);
+  }
+
+  static Future<Response> getProjectsByUser(
+      Token token, String username) async {
+    if (!_validToken(token)) {
+      return Response(
+          isSuccess: false,
+          message:
+              'Sus credenciales se han vencido, por favor cierre sesión y vuelva a ingresar al sistema.');
+    }
+
+    var url = Uri.parse(
+        '${Constants.apiUrl}/api/Projects/GetProjectsByUserName/$username');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'authorization': 'bearer ${token.token}',
+      },
+    );
+
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+
+    List<Project> list = [];
+    var decodedJson = jsonDecode(body);
+    if (decodedJson != null) {
+      for (var item in decodedJson) {
+        list.add(Project.fromJson(item));
+      }
+    }
+    return Response(isSuccess: true, result: list);
   }
 }

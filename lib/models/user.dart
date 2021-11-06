@@ -10,6 +10,7 @@ class User {
   String imageFullPath = '';
   int userType = 1;
   int loginType = 0;
+  String? socialImageUrl = '';
   String fullName = '';
   String id = '';
   String userName = '';
@@ -26,6 +27,7 @@ class User {
     required this.imageFullPath,
     required this.userType,
     required this.loginType,
+    required this.socialImageUrl,
     required this.fullName,
     required this.id,
     required this.userName,
@@ -43,6 +45,7 @@ class User {
     imageFullPath = json['imageFullPath'];
     userType = json['userType'];
     loginType = json['loginType'];
+    socialImageUrl = json['socialImageUrl'];
     fullName = json['fullName'];
     id = json['id'];
     userName = json['userName'];
@@ -61,6 +64,7 @@ class User {
     data['imageFullPath'] = imageFullPath;
     data['userType'] = userType;
     data['loginType'] = loginType;
+    data['socialImageUrl'] = socialImageUrl;
     data['fullName'] = fullName;
     data['id'] = id;
     data['userName'] = userName;

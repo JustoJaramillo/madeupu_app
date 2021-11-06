@@ -212,9 +212,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       await showAlertDialog(
           context: context,
           title: 'Error',
-          message: 'Verifica que estes conectado a internet.',
+          message: 'Verify that you are connected to the internet.',
           actions: <AlertDialogAction>[
-            const AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }
@@ -231,7 +231,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
           title: 'Error',
           message: response.message,
           actions: <AlertDialogAction>[
-            const AlertDialogAction(key: null, label: 'Aceptar'),
+            const AlertDialogAction(key: null, label: 'Accept'),
           ]);
       return;
     }

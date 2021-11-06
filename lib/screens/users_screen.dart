@@ -272,6 +272,7 @@ class _UsersScreenState extends State<UsersScreen> {
                       imageFullPath: '',
                       userType: 1,
                       loginType: 0,
+                      socialImageUrl: '',
                       fullName: '',
                       id: '',
                       userName: '',

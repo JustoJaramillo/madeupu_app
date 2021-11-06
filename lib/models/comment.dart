@@ -1,33 +1,50 @@
+import 'document_type.dart';
+import 'user.dart';
+
 class Comment {
-  int _id = 0;
-  String _message = '';
-  String _userName = '';
-  String _projectId = '';
+  int id = 0;
+  String message = '';
+  String date = '';
+  String dateLocal = '';
+  User user = User(
+      firstName: '',
+      lastName: '',
+      documentType: DocumentType(id: 0, description: ''),
+      document: '',
+      address: '',
+      imageId: '',
+      imageFullPath: '',
+      userType: 0,
+      loginType: 0,
+      socialImageUrl: '',
+      fullName: '',
+      id: '',
+      userName: '',
+      email: '',
+      phoneNumber: '');
 
   Comment(
-      {required int id,
-      required String message,
-      required String userName,
-      required String projectId}) {
-    _id = id;
-    _message = message;
-    _userName = userName;
-    _projectId = projectId;
-  }
+      {required this.id,
+      required this.message,
+      required this.date,
+      required this.dateLocal,
+      required this.user});
 
   Comment.fromJson(Map<String, dynamic> json) {
-    _id = json['id'];
-    _message = json['message'];
-    _userName = json['UserName'];
-    _projectId = json['ProjectId'];
+    id = json['id'];
+    message = json['message'];
+    date = json['date'];
+    dateLocal = json['dateLocal'];
+    user = User.fromJson(json['user']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = _id;
-    data['message'] = _message;
-    data['UserName'] = _userName;
-    data['ProjectId'] = _projectId;
+    data['id'] = id;
+    data['message'] = message;
+    data['date'] = date;
+    data['dateLocal'] = dateLocal;
+    data['user'] = user.toJson();
     return data;
   }
 }

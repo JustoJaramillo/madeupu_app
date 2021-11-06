@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool _isLoading = true;
+  bool _isLoading = false;
   bool _showLoginPage = true;
   late Token _token;
 

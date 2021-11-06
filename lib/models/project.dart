@@ -3,22 +3,23 @@ import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
 
+import 'project_photos.dart';
+
 class Project {
-  int _id = 0;
-  City _city = City(
+  int id = 0;
+  City city = City(
       id: 0,
       name: '',
       region: Region(id: 0, name: '', country: Country(id: 0, name: '')));
-  ProjectCategory _projectCategory = ProjectCategory(id: 0, description: '');
-  String _name = '';
-  String _website = '';
-  String _address = '';
-  String _beginAt = '';
-  String _description = '';
-  String _imageId = '';
-  String _imageFullPath = '';
-  int _ratingsNumber = 0;
-  int _averageRating = 0;
+  ProjectCategory projectCategory = ProjectCategory(id: 0, description: '');
+  String name = '';
+  String website = '';
+  String address = '';
+  String beginAt = '';
+  String description = '';
+  String imageFullPath = '';
+  int ratingsNumber = 0;
+  int averageRating = 0;
 
   Project(
       {required int id,
@@ -29,53 +30,51 @@ class Project {
       required String address,
       required String beginAt,
       required String description,
-      required String imageId,
+      required List<ProjectPhotos> projectPhotos,
       required String imageFullPath,
       required int ratingsNumber,
       required int averageRating}) {
-    _id = id;
-    _city = city;
-    _name = name;
-    _projectCategory = projectCategory;
-    _website = website;
-    _address = address;
-    _beginAt = beginAt;
-    _description = description;
-    _imageId = imageId;
-    _imageFullPath = imageFullPath;
-    _ratingsNumber = ratingsNumber;
-    _averageRating = averageRating;
+    id = id;
+    city = city;
+    name = name;
+    projectCategory = projectCategory;
+    website = website;
+    address = address;
+    beginAt = beginAt;
+    description = description;
+    projectPhotos = projectPhotos;
+    imageFullPath = imageFullPath;
+    ratingsNumber = ratingsNumber;
+    averageRating = averageRating;
   }
 
   Project.fromJson(Map<String, dynamic> json) {
-    _id = json['id'];
-    _city = json['city'];
-    _name = json['name'];
-    _projectCategory = json['projectCategory'];
-    _website = json['website'];
-    _address = json['address'];
-    _beginAt = json['beginAt'];
-    _description = json['description'];
-    _imageId = json['imageId'];
-    _imageFullPath = json['imageFullPath'];
-    _ratingsNumber = json['ratingsNumber'];
-    _averageRating = json['averageRating'];
+    id = json['id'];
+    city = City.fromJson(json['city']);
+    name = json['name'];
+    projectCategory = ProjectCategory.fromJson(json['projectCategory']);
+    website = json['website'];
+    address = json['address'];
+    beginAt = json['beginAt'];
+    description = json['description'];
+    imageFullPath = json['imageFullPath'];
+    ratingsNumber = json['ratingsNumber'];
+    averageRating = json['averageRating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = _id;
-    data['city'] = _city.toJson();
-    data['name'] = _name;
-    data['projectCategory'] = _projectCategory;
-    data['website'] = _website;
-    data['address'] = _address;
-    data['beginAt'] = _beginAt;
-    data['description'] = _description;
-    data['imageId'] = _imageId;
-    data['imageFullPath'] = _imageFullPath;
-    data['ratingsNumber'] = _ratingsNumber;
-    data['averageRating'] = _averageRating;
+    data['id'] = id;
+    data['city'] = city.toJson();
+    data['name'] = name;
+    data['projectCategory'] = projectCategory;
+    data['website'] = website;
+    data['address'] = address;
+    data['beginAt'] = beginAt;
+    data['description'] = description;
+    data['imageFullPath'] = imageFullPath;
+    data['ratingsNumber'] = ratingsNumber;
+    data['averageRating'] = averageRating;
     return data;
   }
 }
