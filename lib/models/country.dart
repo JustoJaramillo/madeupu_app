@@ -2,10 +2,7 @@ class Country {
   int id = 0;
   String name = '';
 
-  Country({required this.id, required this.name}) {
-    id = id;
-    name = name;
-  }
+  Country({required this.id, required this.name});
 
   Country.fromJson(Map<String, dynamic> json) {
     id = json['id'];

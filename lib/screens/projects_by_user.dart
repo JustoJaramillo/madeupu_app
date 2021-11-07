@@ -11,20 +11,19 @@ import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
-import 'package:madeupu_app/screens/project_screen.dart';
-import 'package:madeupu_app/screens/project_view_screen.dart';
 
-class ProjectsScreen extends StatefulWidget {
+import 'project_screen.dart';
+
+class ProjectsByUser extends StatefulWidget {
   final Token token;
-
   // ignore: use_key_in_widget_constructors
-  const ProjectsScreen({required this.token});
+  const ProjectsByUser({required this.token});
 
   @override
-  _ProjectsScreenState createState() => _ProjectsScreenState();
+  _ProjectsByUserState createState() => _ProjectsByUserState();
 }
 
-class _ProjectsScreenState extends State<ProjectsScreen> {
+class _ProjectsByUserState extends State<ProjectsByUser> {
   List<Project> projects = [];
   bool _showLoader = false;
 
@@ -37,14 +36,15 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _getBody(),
-          _showLoader
-              ? const LoaderComponent(text: 'Please wait...')
-              : Container(),
-        ],
+      appBar: AppBar(
+        title: const Text('My Projects'),
       ),
+      body: Stack(children: [
+        _getBody(),
+        _showLoader
+            ? const LoaderComponent(text: 'Please wait...')
+            : Container(),
+      ]),
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add), onPressed: () => _goAdd()),
     );
@@ -86,6 +86,19 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
     }
   }
 
+  void _goEdit(Project project) async {
+    String? result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ProjectScreen(
+                  token: widget.token,
+                  project: project,
+                )));
+    if (result == 'yes') {
+      _getProjects();
+    }
+  }
+
   Widget _showPhoto(Project project) {
     return Stack(children: <Widget>[
       Container(
@@ -118,52 +131,50 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   }
 
   Widget _getBody() {
-    return ListView.builder(
-      itemCount: projects.length,
-      itemBuilder: (context, index) {
-        return Card(
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ProjectViewScreen(project: projects[index])),
-              );
-            },
-            child: Container(
-              margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.all(5),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [Icon(Icons.reorder_rounded)]),
-                  _showPhoto(projects[index]),
-                  Center(
-                    child: Text(
-                      projects[index].name,
-                      style: const TextStyle(
-                        fontSize: 20,
+    return RefreshIndicator(
+      onRefresh: _getProjects,
+      child: ListView.builder(
+        itemCount: projects.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: InkWell(
+              onTap: () {
+                _goEdit(projects[index]);
+              },
+              child: Container(
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [Icon(Icons.reorder_rounded)]),
+                    _showPhoto(projects[index]),
+                    Center(
+                      child: Text(
+                        projects[index].name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                    projects[index].description,
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    '${projects[index].city.region.name}, ${projects[index].city.region.country.name}',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    Text(
+                      projects[index].description,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      '${projects[index].city.region.name}, ${projects[index].city.region.country.name}',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
@@ -187,7 +198,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       return;
     }
 
-    Response response = await ApiHelper.getProjects();
+    Response response = await ApiHelper.getProjectsByUser(
+        widget.token, widget.token.user.userName);
 
     setState(() {
       _showLoader = false;

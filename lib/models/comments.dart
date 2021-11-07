@@ -1,7 +1,7 @@
 import 'document_type.dart';
 import 'user.dart';
 
-class Comment {
+class Comments {
   int id = 0;
   String message = '';
   String date = '';
@@ -23,14 +23,14 @@ class Comment {
       email: '',
       phoneNumber: '');
 
-  Comment(
+  Comments(
       {required this.id,
       required this.message,
       required this.date,
       required this.dateLocal,
       required this.user});
 
-  Comment.fromJson(Map<String, dynamic> json) {
+  Comments.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     message = json['message'];
     date = json['date'];

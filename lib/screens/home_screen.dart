@@ -5,6 +5,7 @@ import 'package:madeupu_app/screens/countries_screen.dart';
 import 'package:madeupu_app/screens/login_screen.dart';
 import 'package:madeupu_app/screens/participation_types_screen.dart';
 import 'package:madeupu_app/screens/project_categories_screen.dart';
+import 'package:madeupu_app/screens/projects_by_user.dart';
 import 'package:madeupu_app/screens/projects_screen.dart';
 import 'package:madeupu_app/screens/regions_screen.dart';
 import 'package:madeupu_app/screens/user_screen.dart';
@@ -29,10 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Projects'),
       ),
-      body: ProjectsScreen(
-        token: widget.token,
-        projectByUsername: false,
-      ),
+      body: ProjectsScreen(token: widget.token),
       drawer: widget.token.user.userType == 0
           ? _getAdminMenu()
           : _getCustomerMenu(),
@@ -149,6 +147,17 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           ListTile(
+            leading: const Icon(Icons.business_center_rounded),
+            title: const Text('My projects'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProjectsByUser(token: widget.token)),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.logout_rounded),
             title: const Text('Log out'),
             onTap: () {
@@ -180,8 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ProjectsScreen(
-                        token: widget.token, projectByUsername: true)),
+                    builder: (context) => ProjectsByUser(token: widget.token)),
               );
             },
           ),

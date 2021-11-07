@@ -6,11 +6,7 @@ class City {
   String name = '';
   Region region = Region(id: 0, name: '', country: Country(id: 0, name: ''));
 
-  City({required int id, required String name, required Region region}) {
-    id = id;
-    name = name;
-    region = region;
-  }
+  City({required int id, required String name, required Region region});
 
   City.fromJson(Map<String, dynamic> json) {
     id = json['id'];

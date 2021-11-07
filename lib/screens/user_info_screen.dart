@@ -195,7 +195,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   profile: false,
                 )));
     if (result == 'yes') {
-      //TODO: Pending refresh user info
+      _getUser();
     }
   }
 
