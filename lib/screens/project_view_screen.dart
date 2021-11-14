@@ -13,6 +13,8 @@ import 'package:madeupu_app/helpers/app_colors.dart';
 import 'package:madeupu_app/models/city.dart';
 import 'package:madeupu_app/models/comments.dart';
 import 'package:madeupu_app/models/country.dart';
+import 'package:madeupu_app/models/participation_type.dart';
+import 'package:madeupu_app/models/participations.dart';
 import 'package:madeupu_app/models/project.dart';
 import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
@@ -61,14 +63,27 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
       video: '',
       videoCode: '');
   bool _qualifiable = false;
+  bool _participable = false;
   bool _somethingNew = false;
+
+  int _participationTypeId = 0;
+  String _participationTypeIdError = '';
+  bool _participationTypeIdShowError = false;
+  List<ParticipationType> _participationTypes = [];
+
+  String _message = '';
+  String _messageError = '';
+  bool _messageShowError = false;
+  final TextEditingController _messageController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _participatinTypeTypes();
     _comments = widget.project.comments;
     _project = widget.project;
     _qualifiable = _valideUserHasRated();
+    _participable = _valideUserIsParticipating();
   }
 
   @override
@@ -109,6 +124,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                   _showPhotosCarousel(),
                   _showRating(),
                   _showComments(),
+                  _showParticipation()
                 ],
               ),
             ),
@@ -130,6 +146,24 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
       }
     }
     return true;
+  }
+
+  bool _valideUserIsParticipating() {
+    for (var e in _project.participations) {
+      if (widget.token.user.userName == e.user.userName) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  String _creatorUser(List<Participations> participations) {
+    for (var e in participations) {
+      if (e.participationType.description == 'Creador') {
+        return e.user.userName;
+      }
+    }
+    return widget.token.user.userName;
   }
 
   _showPhoto() {
@@ -639,57 +673,63 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
               )
             ],
           ),
-          SizedBox(
-            height: 325,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: SizedBox(
-                height: 325,
-                child: ListView.builder(
-                  itemCount: _comments.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 5, top: 5),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: index % 2 == 0
-                              ? AppColors.darkblue
-                              : AppColors.blue,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                      child: Row(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              _showCommentUserPhoto(
-                                  _comments[index].user.imageFullPath),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                _comments[index].user.fullName,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Flexible(
-                            child: Text(
-                              _comments[index].message,
-                              style: const TextStyle(fontSize: 20),
+          _comments.isNotEmpty
+              ? SizedBox(
+                  height: 325,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: SizedBox(
+                      height: 325,
+                      child: ListView.builder(
+                        itemCount: _comments.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 5, top: 5),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: index % 2 == 0
+                                    ? AppColors.darkblue
+                                    : AppColors.blue,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
+                            child: Row(
+                              children: <Widget>[
+                                Column(
+                                  children: <Widget>[
+                                    _showCommentUserPhoto(
+                                        _comments[index].user.imageFullPath),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      _comments[index].user.fullName,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    _comments[index].message,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ),
+                  ),
+                )
+              : const Text(
+                  'There is no comments right now.',
+                  style: TextStyle(fontSize: 16),
                 ),
-              ),
-            ),
-          ),
           ElevatedButton(
             child: SizedBox(
                 width: MediaQuery.of(context).size.width,
@@ -855,5 +895,243 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
     _qualifiable = false;
     _somethingNew = true;
     setState(() {});
+  }
+
+  Widget _showParticipation() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: const <Widget>[
+              Text(
+                'Participation: ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          _participable ? _showParticipationMessage() : Container(),
+          _participable ? _showParticipationType() : Container(),
+          _participable
+              ? ElevatedButton(
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Participation  ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: AppColors.white),
+                          ),
+                          const Icon(Icons.people_alt_rounded)
+                        ],
+                      )),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return AppColors.darkblue;
+                    }),
+                  ),
+                  onPressed: () {
+                    _participationRequest();
+                  },
+                )
+              : const Text(
+                  'You already are participation in this project.',
+                  style: TextStyle(fontSize: 16),
+                )
+        ],
+      ),
+    );
+  }
+
+  void _participationRequest() async {
+    if (!_validateFields()) {
+      return;
+    }
+
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Verify that you are connected to the internet.',
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+    Map<String, dynamic> request = {
+      'Id': 0,
+      'ParticipationTypeId': _participationTypeId,
+      'Message': _message,
+      'UserName': _creatorUser(widget.project.participations),
+      'ProjectId': widget.project.id,
+      'ActiveParticipation': false
+    };
+
+    Response response = await ApiHelper.post(
+        '/api/Participations/', request, widget.token.token);
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    //Navigator.pop(context, 'yes');
+  }
+
+  Widget _showParticipationMessage() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: TextField(
+        keyboardType: TextInputType.multiline,
+        minLines: 10,
+        maxLines: 50,
+        controller: _messageController,
+        decoration: InputDecoration(
+          hintText: 'Enter a participation message...',
+          labelText: 'Participation message',
+          errorText: _messageShowError ? _messageError : null,
+          suffixIcon: const Icon(Icons.description),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        ),
+        onChanged: (value) {
+          _message = value;
+        },
+      ),
+    );
+  }
+
+  Widget _showParticipationType() {
+    return Container(
+        padding: const EdgeInsets.all(10),
+        child: _participationTypes.isEmpty
+            ? const Text('Loading participation types...')
+            : DropdownButtonFormField(
+                items: _getComboParticipationTypes(),
+                value: _participationTypeId,
+                onChanged: (option) {
+                  setState(() {
+                    _participationTypeId = option as int;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Select a participation type...',
+                  labelText: 'Participation type',
+                  errorText: _participationTypeIdShowError
+                      ? _participationTypeIdError
+                      : null,
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+              ));
+  }
+
+  List<DropdownMenuItem<int>> _getComboParticipationTypes() {
+    List<DropdownMenuItem<int>> list = [];
+
+    list.add(const DropdownMenuItem(
+      child: Text('Select a participation type...'),
+      value: 0,
+    ));
+
+    for (var participatinType in _participationTypes) {
+      list.add(DropdownMenuItem(
+        child: Text(participatinType.description),
+        value: participatinType.id,
+      ));
+    }
+
+    return list;
+  }
+
+  Future<void> _participatinTypeTypes() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Verify that you are connected to the internet.',
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    Response response = await ApiHelper.getParticipationTypes(widget.token);
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    setState(() {
+      _participationTypes = response.result;
+    });
+  }
+
+  bool _validateFields() {
+    bool isValid = true;
+
+    if (_participationTypeId == 0) {
+      isValid = false;
+      _participationTypeIdShowError = true;
+      _participationTypeIdError = 'You must select the type of participation.';
+    } else {
+      _participationTypeIdShowError = false;
+    }
+
+    if (_message.isEmpty) {
+      isValid = false;
+      _messageShowError = true;
+      _messageError = 'You must enter a participation message.';
+    } else {
+      _messageShowError = false;
+    }
+
+    setState(() {});
+    return isValid;
   }
 }

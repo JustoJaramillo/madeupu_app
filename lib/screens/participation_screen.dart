@@ -29,7 +29,7 @@ class _ParticipationScreenState extends State<ParticipationScreen> {
   @override
   void initState() {
     super.initState();
-    _noCreatoruser(widget.project.participations);
+    _noCreatorUser(widget.project.participations);
   }
 
   @override
@@ -52,7 +52,7 @@ class _ParticipationScreenState extends State<ParticipationScreen> {
         ));
   }
 
-  void _noCreatoruser(List<Participations> participations) {
+  void _noCreatorUser(List<Participations> participations) {
     _participations = [];
     for (var e in participations) {
       if (e.participationType.description != 'Creador') {
@@ -247,7 +247,7 @@ class _ParticipationScreenState extends State<ParticipationScreen> {
     }
 
     setState(() {
-      _noCreatoruser(response.result.participations);
+      _noCreatorUser(response.result.participations);
     });
   }
 
