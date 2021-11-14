@@ -12,6 +12,7 @@ import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/participation_screen.dart';
 
 import 'project_screen.dart';
 
@@ -213,7 +214,7 @@ class _ProjectsByUserState extends State<ProjectsByUser> {
                     const SizedBox(
                       height: 20,
                     ),
-                    _showButtons()
+                    _showButtons(projects[index])
                   ],
                 ),
               ),
@@ -224,7 +225,7 @@ class _ProjectsByUserState extends State<ProjectsByUser> {
     );
   }
 
-  Widget _showButtons() {
+  Widget _showButtons(Project project) {
     return Container(
       margin: const EdgeInsets.only(left: 10, right: 10),
       child: Row(
@@ -254,7 +255,14 @@ class _ProjectsByUserState extends State<ProjectsByUser> {
                   return AppColors.darkblue;
                 }),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ParticipationScreen(
+                          project: project, token: widget.token)),
+                );
+              },
             ),
           ),
         ],

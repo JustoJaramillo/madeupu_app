@@ -90,7 +90,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
               widget.project.id == 0 ? 'New project' : widget.project.name),
         ),
         body: Stack(
-          children: [
+          children: <Widget>[
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -658,9 +658,9 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10))),
                       child: Row(
-                        children: [
+                        children: <Widget>[
                           Column(
-                            children: [
+                            children: <Widget>[
                               _showCommentUserPhoto(
                                   _comments[index].user.imageFullPath),
                               const SizedBox(
