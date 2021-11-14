@@ -1,68 +1,135 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:madeupu_app/components/loader_component.dart';
+import 'package:madeupu_app/helpers/api_helper.dart';
 import 'package:madeupu_app/helpers/app_colors.dart';
+import 'package:madeupu_app/models/city.dart';
+import 'package:madeupu_app/models/comments.dart';
+import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/project.dart';
+import 'package:madeupu_app/models/project_category.dart';
+import 'package:madeupu_app/models/region.dart';
+import 'package:madeupu_app/models/response.dart';
+import 'package:madeupu_app/models/token.dart';
+import 'package:madeupu_app/screens/comment_screen.dart';
+import 'package:madeupu_app/screens/home_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class ProjectViewScreen extends StatefulWidget {
   final Project project;
+  final Token token;
   // ignore: use_key_in_widget_constructors
-  const ProjectViewScreen({required this.project});
+  const ProjectViewScreen({required this.project, required this.token});
 
   @override
   _ProjectViewScreenState createState() => _ProjectViewScreenState();
 }
 
 class _ProjectViewScreenState extends State<ProjectViewScreen> {
-  final bool _showLoader = false;
+  bool _showLoader = false;
   int _current = 0;
   final CarouselController _carouselController = CarouselController();
+  List<Comments> _comments = [];
+  Project _project = Project(
+      id: 0,
+      city: City(
+          id: 0,
+          name: '',
+          region: Region(id: 0, name: '', country: Country(id: 0, name: ''))),
+      projectCategory: ProjectCategory(id: 0, description: ''),
+      name: '',
+      website: '',
+      address: '',
+      beginAt: '',
+      description: '',
+      imageFullPath: '',
+      ratingsNumber: 0,
+      averageRating: 0,
+      participations: [],
+      projectPhotos: [],
+      ratings: [],
+      comments: [],
+      video: '',
+      videoCode: '');
+  bool _qualifiable = false;
+  bool _somethingNew = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _comments = widget.project.comments;
+    _project = widget.project;
+    _qualifiable = _valideUserHasRated();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:
-            Text(widget.project.id == 0 ? 'New project' : widget.project.name),
-      ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                _showPhoto(),
-                _showProjectName(),
-                _showCategories(),
-                _showProjectWebsite(),
-                _showProjectAddress(),
-                _showProjectBeginAt(),
-                _showCities(),
-                _showRating(),
-                _showProjectCreatorName(),
-                _showCreatorPhoneNumber(),
-                _showCreatorWhatsApp(),
-                _showProjectDescription(),
-                _showProjectVideo(),
-                _showPhotosCarousel(),
-                _showComments(),
-              ],
+    return WillPopScope(
+      onWillPop: () async {
+        _somethingNew
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HomeScreen(token: widget.token)),
+              )
+            : Navigator.pop(context);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+              widget.project.id == 0 ? 'New project' : widget.project.name),
+        ),
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  _showPhoto(),
+                  _showProjectName(),
+                  _showCategories(),
+                  _showProjectWebsite(),
+                  _showProjectAddress(),
+                  _showProjectBeginAt(),
+                  _showCities(),
+                  _showProjectCreatorName(),
+                  _showCreatorPhoneNumber(),
+                  _showCreatorWhatsApp(),
+                  _showProjectDescription(),
+                  _showProjectVideo(),
+                  _showPhotosCarousel(),
+                  _showRating(),
+                  _showComments(),
+                ],
+              ),
             ),
-          ),
-          _showLoader
-              ? const LoaderComponent(
-                  text: 'Please wait...',
-                )
-              : Container(),
-        ],
+            _showLoader
+                ? const LoaderComponent(
+                    text: 'Please wait...',
+                  )
+                : Container(),
+          ],
+        ),
       ),
     );
+  }
+
+  bool _valideUserHasRated() {
+    for (var e in _project.ratings) {
+      if (widget.token.user.userName == e.user.userName) {
+        return false;
+      }
+    }
+    return true;
   }
 
   _showPhoto() {
@@ -144,7 +211,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                 InkWell(
                   onTap: () => _launchURL(widget.project.website.toString()),
                   child: const Text(
-                    'Visit official website',
+                    'Visit the official website',
                     style: TextStyle(fontSize: 19),
                   ),
                 ),
@@ -161,7 +228,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
     );
   }
 
-  _launchURL(String url) async {
+  void _launchURL(String url) async {
     await launch(url);
   }
 
@@ -225,19 +292,75 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
   Widget _showRating() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
         children: <Widget>[
-          const Text(
-            'Rating: ',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          Row(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: const Text('Rating: ',
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              ),
+            ],
           ),
-          Text(
-            'Media ${widget.project.averageRating}, total ${widget.project.ratingsNumber}',
-            style: const TextStyle(fontSize: 20),
-          )
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    'Total ratings: ',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Text(
+                    '${_project.ratingsNumber}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  const Text(
+                    'Average Rating: ',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Text(
+                    '${_project.averageRating}',
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          _showRatingStars()
         ],
       ),
+    );
+  }
+
+  Widget _showRatingStars() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: _qualifiable
+          ? RatingBar.builder(
+              initialRating: 0,
+              minRating: 1,
+              itemSize: 40,
+              direction: Axis.horizontal,
+              allowHalfRating: false,
+              unratedColor: AppColors.gray,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 5.0),
+              itemBuilder: (context, _) => Icon(
+                Icons.star,
+                color: AppColors.darkblue,
+              ),
+              onRatingUpdate: (rating) {
+                _addRating(rating.toInt());
+              },
+            )
+          : const Text('Ya calificaste este proyecto'),
     );
   }
 
@@ -342,7 +465,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
   void _sendMessage() async {
     final link = WhatsAppUnilink(
       phoneNumber: _getOwnerPhone(),
-      text: 'Hola te escribo del taller.',
+      text: 'Hello, I want to be part of your project.',
     );
     await launch('$link');
   }
@@ -371,7 +494,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                 textAlign: TextAlign.justify,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -517,13 +640,13 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
             ],
           ),
           SizedBox(
-            height: 300,
+            height: 325,
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: SizedBox(
-                height: 300,
+                height: 325,
                 child: ListView.builder(
-                  itemCount: widget.project.comments.length,
+                  itemCount: _comments.length,
                   itemBuilder: (context, index) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 5, top: 5),
@@ -538,13 +661,13 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                         children: [
                           Column(
                             children: [
-                              _showCommentUserPhoto(widget
-                                  .project.comments[index].user.imageFullPath),
+                              _showCommentUserPhoto(
+                                  _comments[index].user.imageFullPath),
                               const SizedBox(
                                 height: 5,
                               ),
                               Text(
-                                widget.project.comments[index].user.fullName,
+                                _comments[index].user.fullName,
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               )
@@ -555,7 +678,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                           ),
                           Flexible(
                             child: Text(
-                              widget.project.comments[index].message,
+                              _comments[index].message,
                               style: const TextStyle(fontSize: 20),
                             ),
                           )
@@ -566,10 +689,91 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                 ),
               ),
             ),
+          ),
+          ElevatedButton(
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Comment  ',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: AppColors.white),
+                    ),
+                    const Icon(Icons.message)
+                  ],
+                )),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                return AppColors.darkblue;
+              }),
+            ),
+            onPressed: () => _addComment(),
           )
         ],
       ),
     );
+  }
+
+  void _addComment() async {
+    String? result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              CommentScreen(project: widget.project, token: widget.token)),
+    );
+    if (result == 'yes') {
+      _somethingNew = true;
+      _getProject();
+    }
+  }
+
+  Future<void> _getProject() async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Verify that you are connected to the internet.',
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    Response response = await ApiHelper.getProjectById(
+        widget.token, widget.project.id.toString());
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    setState(() {
+      _comments = response.result.comments;
+      _project = response.result;
+    });
   }
 
   Widget _showCommentUserPhoto(String imageUrl) {
@@ -601,5 +805,55 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
               ),
       ),
     ]);
+  }
+
+  void _addRating(int rateValue) async {
+    setState(() {
+      _showLoader = true;
+    });
+
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() {
+        _showLoader = false;
+      });
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Verify that you are connected to the internet.',
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    Map<String, dynamic> request = {
+      'Rate': rateValue,
+      'ProjectId': widget.project.id,
+      'UserName': widget.token.user.userName
+    };
+
+    Response response =
+        await ApiHelper.post('/api/Ratings/', request, widget.token.token);
+
+    setState(() {
+      _showLoader = false;
+    });
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    _getProject();
+    _qualifiable = false;
+    _somethingNew = true;
+    setState(() {});
   }
 }

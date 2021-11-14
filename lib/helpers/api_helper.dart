@@ -407,4 +407,31 @@ class ApiHelper {
     }
     return Response(isSuccess: true, result: list);
   }
+
+  static Future<Response> getProjectById(Token token, String id) async {
+    if (!_validToken(token)) {
+      return Response(
+          isSuccess: false,
+          message:
+              'Sus credenciales se han vencido, por favor cierre sesión y vuelva a ingresar al sistema.');
+    }
+
+    var url = Uri.parse('${Constants.apiUrl}/api/projects/$id');
+    var response = await http.get(
+      url,
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json',
+        'authorization': 'bearer ${token.token}',
+      },
+    );
+
+    var body = response.body;
+    if (response.statusCode >= 400) {
+      return Response(isSuccess: false, message: body);
+    }
+
+    var decodedJson = jsonDecode(body);
+    return Response(isSuccess: true, result: Project.fromJson(decodedJson));
+  }
 }

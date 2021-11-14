@@ -4,6 +4,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
+import 'package:madeupu_app/helpers/app_colors.dart';
 import 'package:madeupu_app/models/city.dart';
 import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/project.dart';
@@ -150,30 +151,113 @@ class _ProjectsByUserState extends State<ProjectsByUser> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: const [Icon(Icons.reorder_rounded)]),
                     _showPhoto(projects[index]),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Center(
                       child: Text(
                         projects[index].name,
                         style: const TextStyle(
-                          fontSize: 20,
-                        ),
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Text(
                       projects[index].description,
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Total ratings: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${projects[index].ratingsNumber}',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              'Average Rating: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${projects[index].averageRating}',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Text(
                       '${projects[index].city.region.name}, ${projects[index].city.region.country.name}',
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _showButtons()
                   ],
                 ),
               ),
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _showButtons() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Expanded(
+            child: ElevatedButton(
+              child: const Text('Add images'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  return AppColors.blue;
+                }),
+              ),
+              onPressed: () {},
+            ),
+          ),
+          const SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: ElevatedButton(
+              child: const Text('Participations'),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                  return AppColors.darkblue;
+                }),
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
     );
   }
