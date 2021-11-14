@@ -2,9 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:madeupu_app/components/loader_component.dart';
+import 'package:madeupu_app/helpers/app_colors.dart';
 import 'package:madeupu_app/models/project.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:whatsapp_unilink/whatsapp_unilink.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class ProjectViewScreen extends StatefulWidget {
@@ -17,7 +21,7 @@ class ProjectViewScreen extends StatefulWidget {
 }
 
 class _ProjectViewScreenState extends State<ProjectViewScreen> {
-  bool _showLoader = false;
+  final bool _showLoader = false;
   int _current = 0;
   final CarouselController _carouselController = CarouselController();
 
@@ -43,11 +47,11 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                 _showRating(),
                 _showProjectCreatorName(),
                 _showCreatorPhoneNumber(),
+                _showCreatorWhatsApp(),
                 _showProjectDescription(),
                 _showProjectVideo(),
                 _showPhotosCarousel(),
-                /* 
-                _showButtons(), */
+                _showComments(),
               ],
             ),
           ),
@@ -73,7 +77,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                 fit: BoxFit.cover,
               )
             : ClipRRect(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(5),
                 child: FadeInImage(
                     placeholder: const AssetImage('assets/logo.png'),
                     image: NetworkImage(widget.project.imageFullPath),
@@ -87,7 +91,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showProjectName() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -97,7 +101,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
           ),
           Text(
             widget.project.name,
-            style: const TextStyle(fontSize: 20),
+            style: const TextStyle(fontSize: 19),
           )
         ],
       ),
@@ -106,7 +110,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showCategories() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -124,25 +128,46 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showProjectWebsite() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             const Text(
               'Website: ',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
             ),
-            Text(
-              widget.project.website,
-              style: const TextStyle(fontSize: 20),
-            ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () => _launchURL(widget.project.website.toString()),
+                  child: const Text(
+                    'Visit official website',
+                    style: TextStyle(fontSize: 19),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Icon(
+                  Icons.link,
+                  color: Color(0xFF16BCEC),
+                )
+              ],
+            )
           ]),
     );
   }
 
+  _launchURL(String url) async {
+    await launch(url);
+  }
+
   Widget _showProjectAddress() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -161,7 +186,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showProjectBeginAt() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -180,7 +205,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showCities() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -199,7 +224,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showRating() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -218,7 +243,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showProjectCreatorName() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -255,12 +280,12 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   Widget _showCreatorPhoneNumber() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           const Text(
-            'Phone number: ',
+            'Phone: ',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Text(
@@ -272,9 +297,59 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
     );
   }
 
+  Widget _showCreatorWhatsApp() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          const Text(
+            'Contact by: ',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          _showContactuttons(),
+        ],
+      ),
+    );
+  }
+
+  Widget _showContactuttons() {
+    return Row(
+      children: <Widget>[
+        ClipRRect(
+          child: IconButton(
+            icon: const Icon(
+              Icons.call,
+              color: Colors.blue,
+            ),
+            onPressed: () => launch('tel://${_getOwnerPhone()}'),
+          ),
+        ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: IconButton(
+            icon: const FaIcon(
+              FontAwesomeIcons.whatsapp,
+              color: Colors.green,
+            ),
+            onPressed: () => _sendMessage(),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _sendMessage() async {
+    final link = WhatsAppUnilink(
+      phoneNumber: _getOwnerPhone(),
+      text: 'Hola te escribo del taller.',
+    );
+    await launch('$link');
+  }
+
   Widget _showProjectDescription() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -286,9 +361,16 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
               )
             ],
           ),
-          Text(
-            widget.project.description,
-            style: const TextStyle(fontSize: 20),
+          SizedBox(
+            height: 200,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Text(
+                widget.project.description,
+                style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.justify,
+              ),
+            ),
           )
         ],
       ),
@@ -418,5 +500,106 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
         ],
       ),
     );
+  }
+
+  Widget _showComments() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            children: const <Widget>[
+              Text(
+                'Comments: ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 300,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SizedBox(
+                height: 300,
+                child: ListView.builder(
+                  itemCount: widget.project.comments.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 5, top: 5),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: index % 2 == 0
+                              ? AppColors.darkblue
+                              : AppColors.blue,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [
+                              _showCommentUserPhoto(widget
+                                  .project.comments[index].user.imageFullPath),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                widget.project.comments[index].user.fullName,
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Flexible(
+                            child: Text(
+                              widget.project.comments[index].message,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _showCommentUserPhoto(String imageUrl) {
+    return Stack(children: <Widget>[
+      Container(
+        margin: const EdgeInsets.only(top: 10),
+        child: imageUrl.isEmpty
+            ? const Image(
+                image: AssetImage('assets/noimage.png'),
+                height: 90,
+                width: 90,
+                fit: BoxFit.cover,
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(45),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  fit: BoxFit.cover,
+                  height: 90,
+                  width: 90,
+                  placeholder: (context, url) => const Image(
+                    image: AssetImage('assets/icono.png'),
+                    fit: BoxFit.cover,
+                    height: 90,
+                    width: 90,
+                  ),
+                ),
+              ),
+      ),
+    ]);
   }
 }

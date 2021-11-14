@@ -98,7 +98,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 fit: BoxFit.cover,
               )
             : ClipRRect(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(5),
                 child: CachedNetworkImage(
                   imageUrl: project.imageFullPath,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -118,52 +118,96 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   }
 
   Widget _getBody() {
-    return ListView.builder(
-      itemCount: projects.length,
-      itemBuilder: (context, index) {
-        return Card(
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ProjectViewScreen(project: projects[index])),
-              );
-            },
-            child: Container(
-              margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.all(5),
-              child: Column(
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: const [Icon(Icons.reorder_rounded)]),
-                  _showPhoto(projects[index]),
-                  Center(
-                    child: Text(
-                      projects[index].name,
-                      style: const TextStyle(
-                        fontSize: 20,
+    return RefreshIndicator(
+      onRefresh: _getProjects,
+      child: ListView.builder(
+        itemCount: projects.length,
+        itemBuilder: (context, index) {
+          return Card(
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProjectViewScreen(project: projects[index])),
+                );
+              },
+              child: Container(
+                margin: const EdgeInsets.all(5),
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: const [Icon(Icons.reorder_rounded)]),
+                    _showPhoto(projects[index]),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Text(
+                        projects[index].name,
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
-                  ),
-                  Text(
-                    projects[index].description,
-                    maxLines: 4,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    '${projects[index].city.region.name}, ${projects[index].city.region.country.name}',
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      projects[index].description,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.justify,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Total ratings: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${projects[index].ratingsNumber}',
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              'Average Rating: ',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              '${projects[index].averageRating}',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      '${projects[index].city.region.name}, ${projects[index].city.region.country.name}',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 
