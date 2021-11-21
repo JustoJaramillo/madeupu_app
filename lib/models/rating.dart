@@ -21,6 +21,7 @@ class Ratings {
       id: '',
       userName: '',
       email: '',
+      countryCode: '',
       phoneNumber: '');
 
   Ratings(

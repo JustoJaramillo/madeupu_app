@@ -924,7 +924,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            'Participation  ',
+                            'Participate  ',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20,

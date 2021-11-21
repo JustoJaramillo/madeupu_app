@@ -277,6 +277,7 @@ class _UsersScreenState extends State<UsersScreen> {
                       id: '',
                       userName: '',
                       email: '',
+                      countryCode: '',
                       phoneNumber: ''),
                 )));
     if (result == 'yes') {

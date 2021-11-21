@@ -18,7 +18,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Vista previa de la foto'),
+        title: const Text('Photo preview'),
       ),
       body: Column(
         children: [
@@ -33,7 +33,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
               children: <Widget>[
                 Expanded(
                   child: ElevatedButton(
-                    child: const Text('Usar Foto'),
+                    child: const Text('Use photo'),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {
@@ -52,7 +52,7 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
                 ),
                 Expanded(
                   child: ElevatedButton(
-                    child: const Text('Volver a Tomar'),
+                    child: const Text('Try again'),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                           (Set<MaterialState> states) {

@@ -13,6 +13,7 @@ import 'package:madeupu_app/models/region.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/screens/participation_screen.dart';
+import 'package:madeupu_app/screens/project_photoes.dart';
 
 import 'project_screen.dart';
 
@@ -240,7 +241,14 @@ class _ProjectsByUserState extends State<ProjectsByUser> {
                   return AppColors.blue;
                 }),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProjectPhotoes(
+                          token: widget.token, project: project)),
+                );
+              },
             ),
           ),
           const SizedBox(

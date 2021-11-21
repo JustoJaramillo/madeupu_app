@@ -23,6 +23,7 @@ class Participations {
       id: '',
       userName: '',
       email: '',
+      countryCode: '',
       phoneNumber: '');
 
   Participations(

@@ -21,6 +21,7 @@ class Comments {
       id: '',
       userName: '',
       email: '',
+      countryCode: '',
       phoneNumber: '');
 
   Comments(

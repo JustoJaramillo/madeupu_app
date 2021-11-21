@@ -20,6 +20,7 @@ class Token {
       id: '',
       userName: '',
       email: '',
+      countryCode: '',
       phoneNumber: '');
 
   Token({required this.token, required this.expiration, required this.user});

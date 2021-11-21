@@ -29,6 +29,7 @@ class _ParticipationScreenState extends State<ParticipationScreen> {
   @override
   void initState() {
     super.initState();
+    _getProjects();
     _noCreatorUser(widget.project.participations);
   }
 
@@ -341,6 +342,8 @@ class _ParticipationScreenState extends State<ParticipationScreen> {
       return;
     }
 
-    setState(() {});
+    setState(() {
+      _getProjects();
+    });
   }
 }

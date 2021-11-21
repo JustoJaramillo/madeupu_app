@@ -6,7 +6,7 @@ import 'package:madeupu_app/models/response.dart';
 import 'display_picture_screen.dart';
 
 class TakePictureScreen extends StatefulWidget {
-  final CameraDescription camera;
+  final List<CameraDescription> camera;
 
   // ignore: use_key_in_widget_constructors
   const TakePictureScreen({required this.camera});
@@ -18,15 +18,13 @@ class TakePictureScreen extends StatefulWidget {
 class _TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  bool _isRearCamera = true;
+  //var _cameraSelected;
 
   @override
   void initState() {
     super.initState();
-    _controller = CameraController(
-      widget.camera,
-      ResolutionPreset.low,
-    );
-    _initializeControllerFuture = _controller.initialize();
+    _selectCamera();
   }
 
   @override
@@ -39,19 +37,44 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tomar Foto'),
+        title: const Text('Take picture'),
       ),
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(_controller);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+      body: Column(
+        children: <Widget>[
+          FutureBuilder<void>(
+            future: _initializeControllerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return CameraPreview(_controller);
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  child: Text(_isRearCamera ? 'Rear camera' : 'Main camera'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      return const Color(0xFF120E43);
+                    }),
+                  ),
+                  onPressed: () {
+                    _selectCamera();
+                    setState(() {
+                      _isRearCamera;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.camera_alt),
@@ -79,5 +102,17 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
         },
       ),
     );
+  }
+
+  void _selectCamera() {
+    /* _isRearCamera
+        ? _cameraSelected = widget.camera[1]
+        : _cameraSelected = widget.camera[0]; */
+    _controller = CameraController(
+      _isRearCamera ? widget.camera[1] : widget.camera[0],
+      ResolutionPreset.low,
+    );
+    _initializeControllerFuture = _controller.initialize();
+    _isRearCamera = !_isRearCamera;
   }
 }

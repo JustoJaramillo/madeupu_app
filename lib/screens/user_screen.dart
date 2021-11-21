@@ -710,12 +710,11 @@ class _UserScreenState extends State<UserScreen> {
   void _takePicture() async {
     WidgetsFlutterBinding.ensureInitialized();
     final cameras = await availableCameras();
-    final firstCamera = cameras.first;
     Response? response = await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TakePictureScreen(
-                  camera: firstCamera,
+                  camera: cameras,
                 )));
     if (response != null) {
       setState(() {

@@ -15,6 +15,7 @@ class User {
   String id = '';
   String userName = '';
   String email = '';
+  String countryCode = '';
   String phoneNumber = '';
 
   User({
@@ -32,6 +33,7 @@ class User {
     required this.id,
     required this.userName,
     required this.email,
+    required this.countryCode,
     required this.phoneNumber,
   });
 
@@ -50,6 +52,7 @@ class User {
     id = json['id'];
     userName = json['userName'];
     email = json['email'];
+    countryCode = json['countryCode'];
     phoneNumber = json['phoneNumber'];
   }
 
@@ -69,6 +72,7 @@ class User {
     data['id'] = id;
     data['userName'] = userName;
     data['email'] = email;
+    data['countryCode'] = countryCode;
     data['phoneNumber'] = phoneNumber;
     return data;
   }
