@@ -29,8 +29,10 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 class ProjectViewScreen extends StatefulWidget {
   final Project project;
   final Token token;
-  // ignore: use_key_in_widget_constructors
-  const ProjectViewScreen({required this.project, required this.token});
+
+  const ProjectViewScreen(
+      {Key? key, required this.project, required this.token})
+      : super(key: key);
 
   @override
   _ProjectViewScreenState createState() => _ProjectViewScreenState();
@@ -498,7 +500,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   void _sendMessage() async {
     final link = WhatsAppUnilink(
-      phoneNumber: _getOwnerPhone(),
+      phoneNumber: '+${widget.token.user.countryCode}${_getOwnerPhone()}',
       text: 'Hello, I want to be part of your project.',
     );
     await launch('$link');

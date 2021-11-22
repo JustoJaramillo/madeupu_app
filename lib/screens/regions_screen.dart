@@ -11,8 +11,8 @@ import 'package:madeupu_app/screens/region_screen.dart';
 
 class RegionsScreen extends StatefulWidget {
   final Token token;
-  // ignore: use_key_in_widget_constructors
-  const RegionsScreen({required this.token});
+
+  const RegionsScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _RegionsScreenState createState() => _RegionsScreenState();

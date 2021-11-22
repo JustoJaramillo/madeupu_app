@@ -16,8 +16,7 @@ import 'document_types_screen.dart';
 class HomeScreen extends StatefulWidget {
   final Token token;
 
-  // ignore: use_key_in_widget_constructors
-  const HomeScreen({required this.token});
+  const HomeScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

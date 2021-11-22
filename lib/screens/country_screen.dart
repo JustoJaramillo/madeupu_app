@@ -11,8 +11,8 @@ class CountryScreen extends StatefulWidget {
   final Token token;
   final Country country;
 
-  // ignore: use_key_in_widget_constructors
-  const CountryScreen({required this.token, required this.country});
+  const CountryScreen({Key? key, required this.token, required this.country})
+      : super(key: key);
 
   @override
   _CountryScreenState createState() => _CountryScreenState();

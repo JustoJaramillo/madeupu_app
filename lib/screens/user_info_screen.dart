@@ -12,8 +12,8 @@ class UserInfoScreen extends StatefulWidget {
   final Token token;
   final User user;
 
-  // ignore: use_key_in_widget_constructors
-  const UserInfoScreen({required this.token, required this.user});
+  const UserInfoScreen({Key? key, required this.token, required this.user})
+      : super(key: key);
 
   @override
   _UserInfoScreenState createState() => _UserInfoScreenState();

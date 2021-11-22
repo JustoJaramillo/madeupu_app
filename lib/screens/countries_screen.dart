@@ -11,8 +11,7 @@ import 'package:madeupu_app/screens/country_screen.dart';
 class CountriesScreen extends StatefulWidget {
   final Token token;
 
-  // ignore: use_key_in_widget_constructors
-  const CountriesScreen({required this.token});
+  const CountriesScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _CountriesScreenState createState() => _CountriesScreenState();

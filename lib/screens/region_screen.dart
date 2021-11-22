@@ -12,8 +12,8 @@ class RegionScreen extends StatefulWidget {
   final Token token;
   final Region region;
 
-  // ignore: use_key_in_widget_constructors
-  const RegionScreen({required this.token, required this.region});
+  const RegionScreen({Key? key, required this.token, required this.region})
+      : super(key: key);
 
   @override
   _RegionScreenState createState() => _RegionScreenState();

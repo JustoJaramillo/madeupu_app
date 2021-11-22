@@ -11,9 +11,9 @@ class ProjectCategoryScreen extends StatefulWidget {
   final Token token;
   final ProjectCategory projectCategory;
 
-  // ignore: use_key_in_widget_constructors
   const ProjectCategoryScreen(
-      {required this.token, required this.projectCategory});
+      {Key? key, required this.token, required this.projectCategory})
+      : super(key: key);
 
   @override
   _ProjectCategoryScreenState createState() => _ProjectCategoryScreenState();

@@ -8,8 +8,7 @@ import 'display_picture_screen.dart';
 class TakePictureScreen extends StatefulWidget {
   final List<CameraDescription> camera;
 
-  // ignore: use_key_in_widget_constructors
-  const TakePictureScreen({required this.camera});
+  const TakePictureScreen({Key? key, required this.camera}) : super(key: key);
 
   @override
   _TakePictureScreenState createState() => _TakePictureScreenState();
@@ -19,7 +18,6 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   bool _isRearCamera = true;
-  //var _cameraSelected;
 
   @override
   void initState() {
@@ -105,9 +103,6 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
   }
 
   void _selectCamera() {
-    /* _isRearCamera
-        ? _cameraSelected = widget.camera[1]
-        : _cameraSelected = widget.camera[0]; */
     _controller = CameraController(
       _isRearCamera ? widget.camera[1] : widget.camera[0],
       ResolutionPreset.low,

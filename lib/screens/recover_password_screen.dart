@@ -20,7 +20,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
   String _email = '';
   String _emailError = '';
   bool _emailShowError = false;
-  //final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +62,7 @@ class _RecoverPasswordScreenState extends State<RecoverPasswordScreen> {
       padding: const EdgeInsets.all(10),
       child: TextField(
         keyboardType: TextInputType.emailAddress,
+        controller: _emailController,
         decoration: InputDecoration(
           hintText: 'Enter your email...',
           labelText: 'Email',

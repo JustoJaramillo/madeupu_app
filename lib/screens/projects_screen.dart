@@ -17,8 +17,7 @@ import 'package:madeupu_app/screens/project_view_screen.dart';
 class ProjectsScreen extends StatefulWidget {
   final Token token;
 
-  // ignore: use_key_in_widget_constructors
-  const ProjectsScreen({required this.token});
+  const ProjectsScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _ProjectsScreenState createState() => _ProjectsScreenState();

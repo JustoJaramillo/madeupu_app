@@ -18,8 +18,9 @@ import 'package:date_field/date_field.dart';
 class ProjectScreen extends StatefulWidget {
   final Token token;
   final Project project;
-  // ignore: use_key_in_widget_constructors
-  const ProjectScreen({required this.token, required this.project});
+
+  const ProjectScreen({Key? key, required this.token, required this.project})
+      : super(key: key);
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState();

@@ -19,8 +19,8 @@ import 'project_screen.dart';
 
 class ProjectsByUser extends StatefulWidget {
   final Token token;
-  // ignore: use_key_in_widget_constructors
-  const ProjectsByUser({required this.token});
+
+  const ProjectsByUser({Key? key, required this.token}) : super(key: key);
 
   @override
   _ProjectsByUserState createState() => _ProjectsByUserState();

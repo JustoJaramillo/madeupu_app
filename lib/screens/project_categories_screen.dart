@@ -11,8 +11,8 @@ import 'package:madeupu_app/screens/project_category_screen.dart';
 class ProjectCategoriesScreen extends StatefulWidget {
   final Token token;
 
-  // ignore: use_key_in_widget_constructors
-  const ProjectCategoriesScreen({required this.token});
+  const ProjectCategoriesScreen({Key? key, required this.token})
+      : super(key: key);
 
   @override
   _ProjectCategoriesScreenState createState() =>

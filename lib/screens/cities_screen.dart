@@ -12,8 +12,8 @@ import 'package:madeupu_app/screens/city_screen.dart';
 
 class CitiesScreen extends StatefulWidget {
   final Token token;
-  // ignore: use_key_in_widget_constructors
-  const CitiesScreen({required this.token});
+
+  const CitiesScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _CitiesScreenState createState() => _CitiesScreenState();

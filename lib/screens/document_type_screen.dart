@@ -11,8 +11,9 @@ class DocumentTypeScreen extends StatefulWidget {
   final Token token;
   final DocumentType documentType;
 
-  // ignore: use_key_in_widget_constructors
-  const DocumentTypeScreen({required this.token, required this.documentType});
+  const DocumentTypeScreen(
+      {Key? key, required this.token, required this.documentType})
+      : super(key: key);
 
   @override
   _DocumentTypeScreenState createState() => _DocumentTypeScreenState();

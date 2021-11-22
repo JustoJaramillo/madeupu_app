@@ -13,8 +13,7 @@ import 'package:madeupu_app/screens/user_screen.dart';
 class UsersScreen extends StatefulWidget {
   final Token token;
 
-  // ignore: use_key_in_widget_constructors
-  const UsersScreen({required this.token});
+  const UsersScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _UsersScreenState createState() => _UsersScreenState();

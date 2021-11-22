@@ -22,9 +22,12 @@ class UserScreen extends StatefulWidget {
   final User user;
   final bool profile;
 
-  // ignore: use_key_in_widget_constructors
   const UserScreen(
-      {required this.token, required this.user, required this.profile});
+      {Key? key,
+      required this.token,
+      required this.user,
+      required this.profile})
+      : super(key: key);
 
   @override
   _UserScreenState createState() => _UserScreenState();

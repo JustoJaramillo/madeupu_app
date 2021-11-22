@@ -11,7 +11,8 @@ import 'package:madeupu_app/screens/participation_type_screen.dart';
 class ParticipationTypesScreen extends StatefulWidget {
   final Token token;
   // ignore: use_key_in_widget_constructors
-  const ParticipationTypesScreen({required this.token});
+  const ParticipationTypesScreen({Key? key, required this.token})
+      : super(key: key);
 
   @override
   _ParticipationTypesScreenState createState() =>

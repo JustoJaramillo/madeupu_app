@@ -12,8 +12,7 @@ import 'document_type_screen.dart';
 class DocumentTypesScreen extends StatefulWidget {
   final Token token;
 
-  // ignore: use_key_in_widget_constructors
-  const DocumentTypesScreen({required this.token});
+  const DocumentTypesScreen({Key? key, required this.token}) : super(key: key);
 
   @override
   _DocumentTypesScreenState createState() => _DocumentTypesScreenState();

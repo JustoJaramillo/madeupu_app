@@ -11,9 +11,9 @@ class ParticipationTypeScreen extends StatefulWidget {
   final Token token;
   final ParticipationType participationType;
 
-  // ignore: use_key_in_widget_constructors
   const ParticipationTypeScreen(
-      {required this.token, required this.participationType});
+      {Key? key, required this.token, required this.participationType})
+      : super(key: key);
 
   @override
   _ParticipationTypeScreenState createState() =>

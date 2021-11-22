@@ -6,8 +6,7 @@ import 'package:madeupu_app/models/response.dart';
 class DisplayPictureScreen extends StatefulWidget {
   final XFile image;
 
-  // ignore: use_key_in_widget_constructors
-  const DisplayPictureScreen({required this.image});
+  const DisplayPictureScreen({Key? key, required this.image}) : super(key: key);
 
   @override
   _DisplayPictureScreenState createState() => _DisplayPictureScreenState();

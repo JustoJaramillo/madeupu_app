@@ -24,17 +24,19 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   String _currentPassword = '';
   String _currentPasswordError = '';
   bool _currentPasswordShowError = false;
-  //TextEditingController _currentPasswordController = TextEditingController();
+  final TextEditingController _currentPasswordController =
+      TextEditingController();
 
   String _newPassword = '';
   String _newPasswordError = '';
   bool _newPasswordShowError = false;
-  //TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
 
   String _confirmPassword = '';
   String _confirmPasswordError = '';
   bool _confirmPasswordShowError = false;
-  //TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +82,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       padding: const EdgeInsets.all(10),
       child: TextField(
         obscureText: !_passwordShow,
+        controller: _currentPasswordController,
         decoration: InputDecoration(
           hintText: 'Enter your current password...',
           labelText: 'Current password',
@@ -108,6 +111,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       padding: const EdgeInsets.all(10),
       child: TextField(
         obscureText: !_passwordShow,
+        controller: _newPasswordController,
         decoration: InputDecoration(
           hintText: 'Enter your new password...',
           labelText: 'New password',
@@ -136,6 +140,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       padding: const EdgeInsets.all(10),
       child: TextField(
         obscureText: !_passwordShow,
+        controller: _confirmPasswordController,
         decoration: InputDecoration(
           hintText: 'Enter the confirmation of the new password...',
           labelText: 'Password confirmation ',
