@@ -1,4 +1,4 @@
-package com.example.madeupu_app
+package com.justo.madeupu_app
 
 import io.flutter.embedding.android.FlutterActivity
 
