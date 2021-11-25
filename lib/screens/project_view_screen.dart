@@ -120,7 +120,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                   _showCities(),
                   _showProjectCreatorName(),
                   _showCreatorPhoneNumber(),
-                  _showCreatorWhatsApp(),
+                  _showCreatorContactOptions(),
                   _showProjectDescription(),
                   _showProjectVideo(),
                   _showPhotosCarousel(),
@@ -431,7 +431,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
   String _getOwnerPhone() {
     for (var element in widget.project.participations) {
       if (element.participationType.description == 'Creador') {
-        return element.user.phoneNumber;
+        return '+${element.user.countryCode} ${element.user.phoneNumber}';
       }
     }
     return '';
@@ -456,7 +456,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
     );
   }
 
-  Widget _showCreatorWhatsApp() {
+  Widget _showCreatorContactOptions() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Row(
@@ -481,7 +481,8 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
               Icons.call,
               color: Colors.blue,
             ),
-            onPressed: () => launch('tel://${_getOwnerPhone()}'),
+            onPressed: () => launch(
+                'tel://+${widget.token.user.countryCode}${_getOwnerPhone()}'),
           ),
         ),
         ClipRRect(

@@ -12,6 +12,7 @@ import 'package:madeupu_app/helpers/app_colors.dart';
 import 'package:madeupu_app/models/document_type.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/screens/take_picture_screen.dart';
+import 'package:country_picker/country_picker.dart';
 
 class RegisterUserScreen extends StatefulWidget {
   const RegisterUserScreen({Key? key}) : super(key: key);
@@ -56,6 +57,11 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   bool _emailShowError = false;
   final TextEditingController _emailController = TextEditingController();
 
+  String _countryCode = '00';
+  String _countryName = 'Select Country (SC)';
+  String _countryCodeError = '';
+  bool _countryCodeShowError = false;
+
   String _phoneNumber = '';
   String _phoneNumberError = '';
   bool _phoneNumberShowError = false;
@@ -95,6 +101,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                 _showDocument(),
                 _showEmail(),
                 _showAddress(),
+                _showCountry(),
                 _showPhoneNumber(),
                 _showPassword(),
                 _showConfirm(),
@@ -375,6 +382,82 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
     );
   }
 
+  Widget _showCountry() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ElevatedButton(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$_countryCode $_countryName',
+                          style: TextStyle(color: AppColors.gray, fontSize: 15),
+                        ),
+                        Icon(
+                          Icons.place_rounded,
+                          color: AppColors.gray,
+                        )
+                      ],
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      primary: AppColors.white,
+                      alignment: Alignment.centerLeft,
+                      side: BorderSide(
+                        width: 1.0,
+                        color: _countryCodeShowError
+                            ? AppColors.red
+                            : AppColors.gray,
+                      )),
+                  onPressed: () => _selectCountry(),
+                ),
+              ),
+            ],
+          ),
+          _countryCodeShowError
+              ? Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 5),
+                      child: Text(
+                        _countryCodeError,
+                        style: TextStyle(
+                          color: AppColors.red,
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Container()
+        ],
+      ),
+    );
+  }
+
+  void _selectCountry() {
+    showCountryPicker(
+      context: context,
+      onSelect: (Country country) {
+        setState(() {
+          _countryName = country.displayNameNoCountryCode;
+          _countryCode = country.phoneCode;
+          _countryCodeShowError = false;
+        });
+      },
+    );
+  }
+
   Widget _showPassword() {
     return Container(
       padding: const EdgeInsets.all(10),
@@ -385,7 +468,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           hintText: 'Enter a password...',
           labelText: 'Password',
           errorText: _passwordShowError ? _passwordError : null,
-          prefixIcon: const Icon(Icons.lock),
           suffixIcon: IconButton(
             icon: _passwordShow
                 ? const Icon(Icons.visibility)
@@ -552,6 +634,14 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       _addressShowError = false;
     }
 
+    if (_countryCode == '00') {
+      isValid = false;
+      _countryCodeError = 'You must select a country.';
+      _countryCodeShowError = true;
+    } else {
+      _countryCodeShowError = false;
+    }
+
     if (_phoneNumber.isEmpty) {
       isValid = false;
       _phoneNumberShowError = true;
@@ -623,6 +713,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       'email': _email,
       'userName': _email,
       'address': _address,
+      'countryCode': _countryCode,
       'phoneNumber': _phoneNumber,
       'image': base64image,
       'password': _password,

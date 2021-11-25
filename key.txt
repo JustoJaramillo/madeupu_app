@@ -1,0 +1,6 @@
+keytool -genkey -v -keystore keys\key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias justus
+
+keytool -importkeystore -srckeystore keys\key.jks -destkeystore keys\key.jks -deststoretype pkcs12
+
+alias: justus
+pass: justo123456

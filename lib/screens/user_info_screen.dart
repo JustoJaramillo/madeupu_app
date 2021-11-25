@@ -39,13 +39,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       body: Center(
         child: _showLoader
             ? const LoaderComponent(
-                text: 'Por favor espere...',
+                text: 'Pleas wait...',
               )
             : _getContent(),
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () => _goAdd(),
+        child: const Icon(Icons.edit_rounded),
+        onPressed: () => _goEdit(),
       ),
     );
   }
@@ -66,26 +66,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover),
-              ),
-              Positioned(
-                  bottom: 0,
-                  left: 60,
-                  child: InkWell(
-                    onTap: () => _goEdit(),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Container(
-                        color: Colors.green[50],
-                        height: 40,
-                        width: 40,
-                        child: const Icon(
-                          Icons.edit,
-                          size: 30,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                  ))
+              )
             ],
           ),
           Expanded(
@@ -115,7 +96,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                         Row(
                           children: <Widget>[
-                            const Text('Tipo documento: ',
+                            const Text('Document Type: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.documentType.description,
@@ -130,7 +111,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                         Row(
                           children: <Widget>[
-                            const Text('Documento: ',
+                            const Text('Document: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.document,
@@ -145,7 +126,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                         Row(
                           children: <Widget>[
-                            const Text('Dirección: ',
+                            const Text('Address: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
                               _user.address,
@@ -160,10 +141,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         ),
                         Row(
                           children: <Widget>[
-                            const Text('Teléfono: ',
+                            const Text('Phone: ',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             Text(
-                              _user.phoneNumber,
+                              '+${_user.countryCode} ${_user.phoneNumber}',
                               style: const TextStyle(
                                 fontSize: 14,
                               ),
@@ -240,8 +221,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       _user = response.result;
     });
   }
-
-  _goAdd() {}
 
   Widget _getContent() {
     return Column(

@@ -4,11 +4,14 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:camera/camera.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:madeupu_app/components/loader_component.dart';
 import 'package:madeupu_app/helpers/api_helper.dart';
+import 'package:madeupu_app/helpers/app_colors.dart';
+import 'package:madeupu_app/helpers/country_name.dart';
 import 'package:madeupu_app/models/document_type.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
@@ -68,6 +71,11 @@ class _UserScreenState extends State<UserScreen> {
   bool _emailShowError = false;
   final TextEditingController _emailController = TextEditingController();
 
+  String _countryCode = '00';
+  String _countryName = 'Select Country (SC)';
+  String _countryCodeError = '';
+  bool _countryCodeShowError = false;
+
   String _phoneNumber = '';
   String _phoneNumberError = '';
   bool _phoneNumberShowError = false;
@@ -95,6 +103,9 @@ class _UserScreenState extends State<UserScreen> {
     _email = widget.user.email;
     _emailController.text = _email;
 
+    _countryCode = widget.user.countryCode;
+    _countryName = CountryName.gettingName(_countryCode);
+
     _phoneNumber = widget.user.phoneNumber;
     _phoneNumberController.text = _phoneNumber;
   }
@@ -117,6 +128,7 @@ class _UserScreenState extends State<UserScreen> {
                 _showDocument(),
                 _showEmail(),
                 _showAddress(),
+                _showCountry(),
                 _showPhoneNumber(),
                 _showButtons(),
               ],
@@ -271,6 +283,14 @@ class _UserScreenState extends State<UserScreen> {
       _addressShowError = false;
     }
 
+    if (_countryCode == '00') {
+      isValid = false;
+      _countryCodeError = 'You must select a country.';
+      _countryCodeShowError = true;
+    } else {
+      _countryCodeShowError = false;
+    }
+
     if (_phoneNumber.isEmpty) {
       isValid = false;
       _phoneNumberShowError = true;
@@ -317,6 +337,7 @@ class _UserScreenState extends State<UserScreen> {
       'email': _email,
       'userName': _email,
       'address': _address,
+      'countryCode': _countryCode,
       'phoneNumber': _phoneNumber,
       'image': base64image,
     };
@@ -377,6 +398,7 @@ class _UserScreenState extends State<UserScreen> {
       'email': _email,
       'userName': _email,
       'address': _address,
+      'countryCode': _countryCode,
       'phoneNumber': _phoneNumber,
       'image': base64image,
     };
@@ -541,6 +563,9 @@ class _UserScreenState extends State<UserScreen> {
         ),
         onChanged: (value) {
           _lastName = value;
+          setState(() {
+            _lastNameShowError = false;
+          });
         },
       ),
     );
@@ -584,6 +609,9 @@ class _UserScreenState extends State<UserScreen> {
         ),
         onChanged: (value) {
           _document = value;
+          setState(() {
+            _documentShowError = false;
+          });
         },
       ),
     );
@@ -605,6 +633,9 @@ class _UserScreenState extends State<UserScreen> {
         ),
         onChanged: (value) {
           _email = value;
+          setState(() {
+            _emailShowError = false;
+          });
         },
       ),
     );
@@ -625,8 +656,88 @@ class _UserScreenState extends State<UserScreen> {
         ),
         onChanged: (value) {
           _address = value;
+
+          setState(() {
+            _addressShowError = false;
+          });
         },
       ),
+    );
+  }
+
+  Widget _showCountry() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ElevatedButton(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15, bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$_countryCode $_countryName',
+                          style: TextStyle(color: AppColors.gray, fontSize: 15),
+                        ),
+                        Icon(
+                          Icons.place_rounded,
+                          color: AppColors.gray,
+                        )
+                      ],
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      primary: AppColors.white,
+                      alignment: Alignment.centerLeft,
+                      side: BorderSide(
+                        width: 1.0,
+                        color: _countryCodeShowError
+                            ? AppColors.red
+                            : AppColors.gray,
+                      )),
+                  onPressed: () => _selectCountry(),
+                ),
+              ),
+            ],
+          ),
+          _countryCodeShowError
+              ? Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 5),
+                      child: Text(
+                        _countryCodeError,
+                        style: TextStyle(
+                          color: AppColors.red,
+                          fontSize: 12.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Container()
+        ],
+      ),
+    );
+  }
+
+  void _selectCountry() {
+    showCountryPicker(
+      context: context,
+      onSelect: (Country country) {
+        setState(() {
+          _countryName = country.displayNameNoCountryCode;
+          _countryCode = country.phoneCode;
+          _countryCodeShowError = false;
+        });
+      },
     );
   }
 

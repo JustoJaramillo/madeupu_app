@@ -146,11 +146,19 @@ class _UsersScreenState extends State<UsersScreen> {
                           children: [
                             Column(
                               children: [
-                                Text(
-                                  e.fullName,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
+                                Center(
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
+                                    child: Text(
+                                      e.fullName,
+                                      maxLines: 2,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
                                 const SizedBox(
                                   height: 5,
@@ -165,7 +173,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                   height: 5,
                                 ),
                                 Text(
-                                  e.phoneNumber,
+                                  '+${e.countryCode} ${e.phoneNumber}',
                                   style: const TextStyle(
                                     fontSize: 14,
                                   ),
