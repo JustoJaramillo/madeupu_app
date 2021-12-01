@@ -20,6 +20,7 @@ class UserInfoScreen extends StatefulWidget {
 }
 
 class _UserInfoScreenState extends State<UserInfoScreen> {
+  bool _somethingHasChange = false;
   bool _showLoader = false;
   late User _user;
 
@@ -32,20 +33,28 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_user.fullName),
-      ),
-      body: Center(
-        child: _showLoader
-            ? const LoaderComponent(
-                text: 'Pleas wait...',
-              )
-            : _getContent(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.edit_rounded),
-        onPressed: () => _goEdit(),
+    return WillPopScope(
+      onWillPop: () async {
+        _somethingHasChange
+            ? Navigator.pop(context, 'yes')
+            : Navigator.pop(context);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_user.fullName),
+        ),
+        body: Center(
+          child: _showLoader
+              ? const LoaderComponent(
+                  text: 'Pleas wait...',
+                )
+              : _getContent(),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.edit_rounded),
+          onPressed: () => _goEdit(),
+        ),
       ),
     );
   }
@@ -219,6 +228,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
     setState(() {
       _user = response.result;
+      _somethingHasChange = true;
     });
   }
 

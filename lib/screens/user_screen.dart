@@ -103,7 +103,9 @@ class _UserScreenState extends State<UserScreen> {
     _email = widget.user.email;
     _emailController.text = _email;
 
-    _countryCode = widget.user.countryCode;
+    _countryCode = widget.user.countryCode.isEmpty
+        ? _countryCode
+        : widget.user.countryCode;
     _countryName = CountryName.gettingName(_countryCode);
 
     _phoneNumber = widget.user.phoneNumber;
