@@ -25,9 +25,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String _email = 'luis@yopmail.com';
-  // ignore: unused_field
   String _emailError = '';
-  // ignore: unused_field
   bool _emailShowError = false;
 
   String _password = '123456';
@@ -103,6 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
         autofocus: true,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
+          errorText: _emailShowError ? _emailError : null,
           hintText: 'Enter your email...',
           labelText: 'Email',
           suffixIcon: const Icon(Icons.email_outlined),

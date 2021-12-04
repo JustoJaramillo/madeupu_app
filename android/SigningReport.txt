@@ -1,3 +1,4 @@
+Starting a Gradle Daemon, 1 incompatible and 1 stopped Daemons could not be reused, use --status for details
 
 > Task :app:signingReport
 Variant: debug
@@ -10,13 +11,13 @@ SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20
 Valid until: Friday, September 29, 2051
 ----------
 Variant: release
-Config: debug
-Store: C:\Users\code\.android\debug.keystore
-Alias: AndroidDebugKey
-MD5: 65:47:92:39:2B:FC:F0:5F:1F:09:56:33:31:15:1F:BE
-SHA1: 1B:C5:BA:5C:73:21:AD:DF:2A:9E:FD:15:3C:C3:BA:ED:F9:43:47:78
-SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20:0A:5D:B7:6D:29:C1:05:46
-Valid until: Friday, September 29, 2051
+Config: release
+Store: C:\Users\code\AndroidStudioProjects\madeupu_app\keys\key.jks
+Alias: justus
+MD5: 3A:9A:2A:32:52:15:5A:AE:7C:72:F3:2C:24:CD:2B:3A
+SHA1: D6:F5:A6:B8:F7:F1:EF:9C:D6:02:25:CB:99:81:B0:75:EE:24:9B:A8
+SHA-256: B2:BF:C4:32:5C:20:7D:AF:5F:AB:C2:1B:D7:36:B2:8E:C0:B1:BF:41:E3:45:0F:34:66:7D:CF:A1:A3:E8:83:F7
+Valid until: Saturday, April 10, 2049
 ----------
 Variant: profile
 Config: debug
@@ -46,13 +47,13 @@ SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20
 Valid until: Friday, September 29, 2051
 ----------
 Variant: releaseUnitTest
-Config: debug
-Store: C:\Users\code\.android\debug.keystore
-Alias: AndroidDebugKey
-MD5: 65:47:92:39:2B:FC:F0:5F:1F:09:56:33:31:15:1F:BE
-SHA1: 1B:C5:BA:5C:73:21:AD:DF:2A:9E:FD:15:3C:C3:BA:ED:F9:43:47:78
-SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20:0A:5D:B7:6D:29:C1:05:46
-Valid until: Friday, September 29, 2051
+Config: release
+Store: C:\Users\code\AndroidStudioProjects\madeupu_app\keys\key.jks
+Alias: justus
+MD5: 3A:9A:2A:32:52:15:5A:AE:7C:72:F3:2C:24:CD:2B:3A
+SHA1: D6:F5:A6:B8:F7:F1:EF:9C:D6:02:25:CB:99:81:B0:75:EE:24:9B:A8
+SHA-256: B2:BF:C4:32:5C:20:7D:AF:5F:AB:C2:1B:D7:36:B2:8E:C0:B1:BF:41:E3:45:0F:34:66:7D:CF:A1:A3:E8:83:F7
+Valid until: Saturday, April 10, 2049
 ----------
 Variant: profileUnitTest
 Config: debug
@@ -141,6 +142,44 @@ Valid until: Friday, September 29, 2051
 ----------
 
 > Task :flutter_facebook_auth:signingReport
+Variant: debugAndroidTest
+Config: debug
+Store: C:\Users\code\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 65:47:92:39:2B:FC:F0:5F:1F:09:56:33:31:15:1F:BE
+SHA1: 1B:C5:BA:5C:73:21:AD:DF:2A:9E:FD:15:3C:C3:BA:ED:F9:43:47:78
+SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20:0A:5D:B7:6D:29:C1:05:46
+Valid until: Friday, September 29, 2051
+----------
+Variant: debugUnitTest
+Config: debug
+Store: C:\Users\code\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 65:47:92:39:2B:FC:F0:5F:1F:09:56:33:31:15:1F:BE
+SHA1: 1B:C5:BA:5C:73:21:AD:DF:2A:9E:FD:15:3C:C3:BA:ED:F9:43:47:78
+SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20:0A:5D:B7:6D:29:C1:05:46
+Valid until: Friday, September 29, 2051
+----------
+Variant: releaseUnitTest
+Config: debug
+Store: C:\Users\code\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 65:47:92:39:2B:FC:F0:5F:1F:09:56:33:31:15:1F:BE
+SHA1: 1B:C5:BA:5C:73:21:AD:DF:2A:9E:FD:15:3C:C3:BA:ED:F9:43:47:78
+SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20:0A:5D:B7:6D:29:C1:05:46
+Valid until: Friday, September 29, 2051
+----------
+Variant: profileUnitTest
+Config: debug
+Store: C:\Users\code\.android\debug.keystore
+Alias: AndroidDebugKey
+MD5: 65:47:92:39:2B:FC:F0:5F:1F:09:56:33:31:15:1F:BE
+SHA1: 1B:C5:BA:5C:73:21:AD:DF:2A:9E:FD:15:3C:C3:BA:ED:F9:43:47:78
+SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20:0A:5D:B7:6D:29:C1:05:46
+Valid until: Friday, September 29, 2051
+----------
+
+> Task :flutter_inappwebview:signingReport
 Variant: debugAndroidTest
 Config: debug
 Store: C:\Users\code\.android\debug.keystore
@@ -444,11 +483,9 @@ SHA-256: 09:93:36:EC:46:9D:C6:7F:F8:4A:DD:47:61:69:EE:E3:16:5D:81:DE:AD:17:56:20
 Valid until: Friday, September 29, 2051
 ----------
 
-Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 7.0.
+Use '--warning-mode all' to show the individual deprecation warnings.
+See https://docs.gradle.org/6.7/userguide/command_line_interface.html#sec:command_line_warnings
 
-You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
-
-See https://docs.gradle.org/7.2/userguide/command_line_interface.html#sec:command_line_warnings
-
-BUILD SUCCESSFUL in 2s
-11 actionable tasks: 11 executed
+BUILD SUCCESSFUL in 46s
+12 actionable tasks: 12 executed

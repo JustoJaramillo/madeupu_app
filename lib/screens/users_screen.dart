@@ -163,10 +163,15 @@ class _UsersScreenState extends State<UsersScreen> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text(
-                                  e.email,
-                                  style: const TextStyle(
-                                    fontSize: 14,
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: Text(
+                                    e.email,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(

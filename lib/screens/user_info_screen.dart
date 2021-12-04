@@ -90,14 +90,28 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       children: <Widget>[
                         Row(
                           children: <Widget>[
-                            const Text('Email: ',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text(
-                              _user.email,
-                              style: const TextStyle(
-                                fontSize: 14,
-                              ),
-                            ),
+                            Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: const Text('Email: ',
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  child: Text(
+                                    _user.email,
+                                    maxLines: 2,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                         const SizedBox(

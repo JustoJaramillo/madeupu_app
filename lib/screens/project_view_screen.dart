@@ -14,7 +14,6 @@ import 'package:madeupu_app/models/city.dart';
 import 'package:madeupu_app/models/comments.dart';
 import 'package:madeupu_app/models/country.dart';
 import 'package:madeupu_app/models/participation_type.dart';
-import 'package:madeupu_app/models/participations.dart';
 import 'package:madeupu_app/models/project.dart';
 import 'package:madeupu_app/models/project_category.dart';
 import 'package:madeupu_app/models/region.dart';
@@ -157,15 +156,6 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
       }
     }
     return true;
-  }
-
-  String _creatorUser(List<Participations> participations) {
-    for (var e in participations) {
-      if (e.participationType.description == 'Creador') {
-        return e.user.userName;
-      }
-    }
-    return widget.token.user.userName;
   }
 
   _showPhoto() {
@@ -481,8 +471,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
               Icons.call,
               color: Colors.blue,
             ),
-            onPressed: () => launch(
-                'tel://+${widget.token.user.countryCode}${_getOwnerPhone()}'),
+            onPressed: () => launch('tel://+${_getOwnerPhone()}'),
           ),
         ),
         ClipRRect(
@@ -501,7 +490,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
 
   void _sendMessage() async {
     final link = WhatsAppUnilink(
-      phoneNumber: '+${widget.token.user.countryCode}${_getOwnerPhone()}',
+      phoneNumber: '+${_getOwnerPhone()}',
       text: 'Hello, I want to be part of your project.',
     );
     await launch('$link');
@@ -947,7 +936,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
                   },
                 )
               : const Text(
-                  'You already are participation in this project.',
+                  'You are already participating in this project.',
                   style: TextStyle(fontSize: 16),
                 )
         ],
@@ -982,7 +971,7 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
       'Id': 0,
       'ParticipationTypeId': _participationTypeId,
       'Message': _message,
-      'UserName': _creatorUser(widget.project.participations),
+      'UserName': widget.token.user.userName,
       'ProjectId': widget.project.id,
       'ActiveParticipation': false
     };
@@ -1005,7 +994,10 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
       return;
     }
 
-    //Navigator.pop(context, 'yes');
+    _getProject();
+    _participable = false;
+    _somethingNew = true;
+    setState(() {});
   }
 
   Widget _showParticipationMessage() {
@@ -1064,10 +1056,12 @@ class _ProjectViewScreenState extends State<ProjectViewScreen> {
     ));
 
     for (var participatinType in _participationTypes) {
-      list.add(DropdownMenuItem(
-        child: Text(participatinType.description),
-        value: participatinType.id,
-      ));
+      if (participatinType.description != 'Creador') {
+        list.add(DropdownMenuItem(
+          child: Text(participatinType.description),
+          value: participatinType.id,
+        ));
+      }
     }
 
     return list;

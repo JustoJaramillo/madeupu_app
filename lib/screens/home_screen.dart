@@ -1,4 +1,8 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:madeupu_app/helpers/api_helper.dart';
+import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/screens/cities_screen.dart';
 import 'package:madeupu_app/screens/countries_screen.dart';
@@ -10,6 +14,7 @@ import 'package:madeupu_app/screens/projects_screen.dart';
 import 'package:madeupu_app/screens/regions_screen.dart';
 import 'package:madeupu_app/screens/user_screen.dart';
 import 'package:madeupu_app/screens/users_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'document_types_screen.dart';
 
@@ -23,6 +28,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: const Icon(Icons.logout_rounded),
             title: const Text('Log out'),
             onTap: () {
+              _removeUser();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -215,6 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
             leading: const Icon(Icons.logout_rounded),
             title: const Text('Log out'),
             onTap: () {
+              _removeUser();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -224,5 +237,39 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _getUser() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: 'Verify that you are connected to the internet.',
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+
+    Response response =
+        await ApiHelper.getUser(widget.token, widget.token.user.id);
+
+    if (!response.isSuccess) {
+      await showAlertDialog(
+          context: context,
+          title: 'Error',
+          message: response.message,
+          actions: <AlertDialogAction>[
+            const AlertDialogAction(key: null, label: 'Accept'),
+          ]);
+      return;
+    }
+    widget.token.user = response.result;
+  }
+
+  void _removeUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.clear();
   }
 }

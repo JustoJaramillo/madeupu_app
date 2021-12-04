@@ -16,7 +16,9 @@ import 'package:madeupu_app/models/document_type.dart';
 import 'package:madeupu_app/models/response.dart';
 import 'package:madeupu_app/models/token.dart';
 import 'package:madeupu_app/models/user.dart';
+import 'package:madeupu_app/screens/home_screen.dart';
 import 'package:madeupu_app/screens/take_picture_screen.dart';
+import 'package:madeupu_app/screens/users_screen.dart';
 
 import 'change_password_screen.dart';
 
@@ -422,8 +424,13 @@ class _UserScreenState extends State<UserScreen> {
           ]);
       return;
     }
-
-    Navigator.pop(context, 'yes');
+    widget.profile
+        ? Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen(token: widget.token)),
+          )
+        : Navigator.pop(context, 'yes');
   }
 
   void _confirmDelete() async {
@@ -478,8 +485,12 @@ class _UserScreenState extends State<UserScreen> {
           ]);
       return;
     }
-
-    Navigator.pop(context, 'yes');
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => UsersScreen(
+                  token: widget.token,
+                )));
   }
 
   Widget _showPhoto() {
